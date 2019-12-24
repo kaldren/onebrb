@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Onebrb.Core.Interfaces
 {
-    interface IProfileRepository
+    public interface IProfileRepository
     {
         /// <summary>
         /// Get profile by Id

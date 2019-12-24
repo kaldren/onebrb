@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Onebrb.Core\Onebrb.Core.csproj" />
     <ProjectReference Include="..\Onebrb.Data\Onebrb.Data.csproj" />
   </ItemGroup>
 
