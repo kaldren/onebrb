@@ -34,7 +34,9 @@ namespace Onebrb.Api.Controllers
 
                 if (profile == null)
                 {
-                    _logger.LogWarning($"{HttpContext.Connection.RemoteIpAddress.ToString()}: Couldn't fetch profile with email {email}");
+                    var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+
+                    _logger.LogWarning($"{ipAddress}: Couldn't fetch profile with email {email}");
                     return StatusCode(StatusCodes.Status404NotFound, "Email address not found");
                 }
 
