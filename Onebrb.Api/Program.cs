@@ -20,7 +20,9 @@ namespace Onebrb.Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseStartup<Startup>()
+                    .UseUrls("https://localhost:6000");
                 });
     }
 }
