@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Exceptions;
 using Onebrb.Core.Interfaces;
@@ -16,10 +17,12 @@ namespace Onebrb.Api.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IProfileRepository _repository;
+        private readonly ILogger<ProfileController> _logger;
 
-        public ProfileController(IProfileRepository repository)
+        public ProfileController(IProfileRepository repository, ILogger<ProfileController> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         [HttpGet("{email}")]
@@ -36,8 +39,9 @@ namespace Onebrb.Api.Controllers
 
                 return profile;
             }
-            catch (EmailAddressNotFoundException ex)
+            catch (CouldNotGetProfileException ex)
             {
+                _logger.LogCritical("CouldNotGetProfileException exception catched", ex.StackTrace);
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
