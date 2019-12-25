@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Onebrb.Core.Entities;
+using Onebrb.Core.Exceptions;
 using Onebrb.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,21 @@ namespace Onebrb.Api.Controllers
         [HttpGet("{email}")]
         public async Task<ActionResult<Profile>> Get(string email)
         {
-            return await _repository.GetProfileAsync(email);
+            try
+            {
+                var profile = await _repository.GetProfileAsync(email);
+
+                if (profile == null)
+                {
+                    return StatusCode(StatusCodes.Status404NotFound, "Email address not found");
+                }
+
+                return profile;
+            }
+            catch (EmailAddressNotFoundException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
         }
     }
 }
