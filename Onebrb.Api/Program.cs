@@ -24,7 +24,7 @@ namespace Onebrb.Api
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
-                .WriteTo.File(new JsonFormatter(), @"c:\temp\logs\onebrb.json", shared: true)
+                .WriteTo.MSSqlServer(Configuration.GetConnectionString("Onebrb"), Configuration.GetSection("LoggingTable").Value)
                 .CreateLogger();
             try
             {
