@@ -34,6 +34,7 @@ namespace Onebrb.Api.Controllers
 
                 if (profile == null)
                 {
+                    _logger.LogWarning($"Couldn't fetch profile with email {email}");
                     return StatusCode(StatusCodes.Status404NotFound, "Email address not found");
                 }
 
@@ -41,7 +42,7 @@ namespace Onebrb.Api.Controllers
             }
             catch (CouldNotGetProfileException ex)
             {
-                _logger.LogCritical("CouldNotGetProfileException exception catched", ex.StackTrace);
+                _logger.LogWarning("CouldNotGetProfileException exception catched", ex.StackTrace);
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
