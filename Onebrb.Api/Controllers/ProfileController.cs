@@ -30,10 +30,12 @@ namespace Onebrb.Api.Controllers
         {
             try
             {
+                _logger.LogWarning($"{HttpContext.Connection.RemoteIpAddress.ToString()}: Couldn't fetch profile with email {email}");
                 var profile = await _repository.GetProfileAsync(email);
 
                 if (profile == null)
                 {
+                    HttpContext.Connection.RemoteIpAddress.ToString();
                     _logger.LogWarning($"Couldn't fetch profile with email {email}");
                     return StatusCode(StatusCodes.Status404NotFound, "Email address not found");
                 }

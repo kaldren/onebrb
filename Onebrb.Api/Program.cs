@@ -24,8 +24,8 @@ namespace Onebrb.Api
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
-                .WriteTo.MSSqlServer(Configuration.GetConnectionString("Onebrb"), Configuration.GetSection("LoggingTable").Value)
                 .CreateLogger();
+
             try
             {
                 Log.Information("Starting web host");

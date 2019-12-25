@@ -25,8 +25,8 @@ namespace Onebrb.Spa
         {
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(Configuration)
-                .WriteTo.File(new JsonFormatter(), @"c:\temp\logs\onebrb.json", shared: true)
                 .CreateLogger();
+
             try
             {
                 Log.Information("Starting web host");
