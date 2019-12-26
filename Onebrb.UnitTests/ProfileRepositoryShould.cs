@@ -1,4 +1,6 @@
-﻿using Onebrb.Core.Interfaces;
+﻿using Moq;
+using Onebrb.Core.Entities;
+using Onebrb.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,17 @@ namespace Onebrb.UnitTests
         [Fact]
         public void ReturnProfileById()
         {
+            var mock = new Mock<IProfileRepository>();
+            int profileId = 1;
+
+            mock.Setup(x => x.GetProfileAsync(profileId)).ReturnsAsync(new Profile
+            {
+                Id = 1,
+                FirstName = "Kaloyan",
+                LastName = "Drenski",
+                Email = "drenski666@gmail.com"
+            });
+
         }
     }
 }
