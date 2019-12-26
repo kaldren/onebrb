@@ -25,18 +25,18 @@ namespace Onebrb.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{email}")]
-        public async Task<ActionResult<Profile>> Get(string email)
+        [HttpGet("{profileId}")]
+        public async Task<ActionResult<Profile>> Get(int profileId)
         {
             try
             {
-                var profile = await _repository.GetProfileAsync(email);
+                var profile = await _repository.GetProfileAsync(profileId);
                 var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 if (profile == null)
                 {
-                    _logger.LogWarning($"{ipAddress}: Couldn't fetch profile with email {email}");
-                    return StatusCode(StatusCodes.Status404NotFound, "Email address not found");
+                    _logger.LogWarning($"{ipAddress}: Couldn't fetch profile with id {profileId}");
+                    return StatusCode(StatusCodes.Status404NotFound, "Profile not found");
                 }
 
                 return profile;

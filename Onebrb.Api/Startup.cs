@@ -29,6 +29,7 @@ namespace Onebrb.Api
         {
             services.AddControllers();
             services.AddScoped<IProfileRepository, ProfileRepositoryMock>();
+            services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

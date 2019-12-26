@@ -1,7 +1,14 @@
-﻿@page "/profile"
+﻿@page "/profile/{profileId}"
+@inherits ProfileBase
 
 <h3>Profile</h3>
 
-@code {
-
+@if(Profile == null)
+{
+    <h2>Loading...</h2>
+}
+else
+{
+    <h2>Profile of @Profile.FirstName @Profile.LastName</h2>
+    <h2>Email: @Profile.Email</h2>
 }

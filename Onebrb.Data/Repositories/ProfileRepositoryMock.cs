@@ -11,22 +11,14 @@ namespace Onebrb.Data
     {
         private List<Profile> mockData = new List<Profile>
         {
-            new Profile { FirstName = "John", LastName = "Doe", Email = "johndoe@example.com" },
-            new Profile { FirstName = "Bob", LastName = "Segar", Email = "bob@example.com" },
-            new Profile { FirstName = "Steve", LastName = "Ballmer", Email = "steveb@microsoft.com" },
+            new Profile { Id = 1, FirstName = "John", LastName = "Doe", Email = "johndoe@example.com" },
+            new Profile { Id = 2, FirstName = "Bob", LastName = "Segar", Email = "bob@example.com" },
+            new Profile { Id = 3, FirstName = "Steve", LastName = "Ballmer", Email = "steveb@microsoft.com" },
         };
-        public async Task<Profile> GetProfileAsync(Guid id)
-        {
-            return new Profile
-            {
-                FirstName = "John",
-                LastName = "Doe"
-            };
-        }
 
-        public async Task<Profile> GetProfileAsync(string email)
+        public async Task<Profile> GetProfileAsync(int profileId)
         {
-            return mockData.FirstOrDefault(x => x.Email == email);
+            return mockData.FirstOrDefault(x => x.Id == profileId);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Onebrb.Api
                 {
                     webBuilder
                     .UseStartup<Startup>()
-                    .UseUrls("https://localhost:6000")
+                    .UseUrls("http://localhost:6000")
                     .UseSerilog();
                 });
     }
