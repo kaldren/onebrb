@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Onebrb.Core\Onebrb.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
