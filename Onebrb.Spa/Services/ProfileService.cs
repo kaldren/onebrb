@@ -27,14 +27,15 @@ namespace Onebrb.Spa.Services
         {
             string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var profile = await JsonSerializer.DeserializeAsync<Profile>
+            Profile profile = await JsonSerializer.DeserializeAsync<Profile>
                 (await _httpClient.GetStreamAsync($"api/profile/{profileId}"), new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
-            // Checks if the profile belongs to the logged in user
-            if (profile != null && userId != null && int.TryParse(userId, out int userIdNumeric) && profile.Id == userIdNumeric)
+            // Checks if the profile belongs to the logged in user or not
+            // and marks the profile accordingly.
+            if (profile != null && int.TryParse(userId, out int userIdNumeric) && profile.Id == userIdNumeric)
             {
                 profile.ProfileType = ProfileTypeEnum.OwnProfile;
             }
