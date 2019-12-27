@@ -18,13 +18,18 @@ namespace Onebrb.Spa.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Profile> GetProfileAsync(string profileId)
+        public async Task<Profile> GetProfileAsync(int profileId)
         {
             return await JsonSerializer.DeserializeAsync<Profile>
                 (await _httpClient.GetStreamAsync($"api/profile/{profileId}"), new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
+        }
+
+        public Task<Profile> GetProfileAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

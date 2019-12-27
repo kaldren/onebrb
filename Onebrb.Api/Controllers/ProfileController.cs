@@ -25,7 +25,7 @@ namespace Onebrb.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{profileId}")]
+        [HttpGet("{profileId:int}")]
         public async Task<ActionResult<Profile>> Get(int profileId)
         {
             try

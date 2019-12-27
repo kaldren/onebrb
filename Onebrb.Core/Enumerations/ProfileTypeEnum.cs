@@ -9,6 +9,7 @@ namespace Onebrb.Core.Enumerations
     public enum ProfileTypeEnum
     {
         OwnProfile,
-        NotOwnProfile
+        NotOwnProfile,
+        NotDetermined
     }
 }

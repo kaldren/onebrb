@@ -9,6 +9,17 @@ namespace Onebrb.Spa.Services
 {
     public interface IProfileService
     {
-        Task<Profile> GetProfileAsync(string profileId);
+        /// <summary>
+        /// Get own profile
+        /// </summary>
+        /// <returns></returns>
+        Task<Profile> GetProfileAsync();
+
+        /// <summary>
+        /// Get profile by id
+        /// </summary>
+        /// <param name="profileId">Profile id</param>
+        /// <returns></returns>
+        Task<Profile> GetProfileAsync(int profileId);
     }
 }

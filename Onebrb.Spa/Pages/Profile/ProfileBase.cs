@@ -21,7 +21,16 @@ namespace Onebrb.Spa.Pages.Profile
 
         protected override async Task OnInitializedAsync()
         {
-            Profile = (await ProfileService.GetProfileAsync(ProfileId));
+            // If the id is numeric get the user by that id
+            if (ProfileId != null && int.TryParse(ProfileId, out int idParameter))
+            {
+                Profile = (await ProfileService.GetProfileAsync(idParameter));
+            }
+            // Otherwise get the currently logged in user
+            else
+            {
+                Profile = (await ProfileService.GetProfileAsync(2));
+            }
         }
     }
 }
