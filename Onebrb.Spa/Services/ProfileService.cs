@@ -25,7 +25,7 @@ namespace Onebrb.Spa.Services
 
         public async Task<Profile> GetProfileAsync(int profileId)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var profile = await JsonSerializer.DeserializeAsync<Profile>
                 (await _httpClient.GetStreamAsync($"api/profile/{profileId}"), new JsonSerializerOptions()

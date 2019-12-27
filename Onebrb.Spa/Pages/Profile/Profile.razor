@@ -11,11 +11,12 @@
 }
 else if (Profile.ProfileType == ProfileTypeEnum.OwnProfile)
 {
-    // Show own profile and options (like editing and etc...)
+    // Own profile.
     <h2>Welcome to your profile, @Profile.FirstName</h2>
 }
 else
 {
+    // Other person's profile.
     <h2>Profile of @Profile.FirstName @Profile.LastName</h2>
     <h2>Email: @Profile.Email</h2>
 }

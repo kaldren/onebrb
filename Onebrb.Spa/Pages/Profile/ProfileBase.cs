@@ -29,7 +29,7 @@ namespace Onebrb.Spa.Pages.Profile
             // Otherwise get the currently logged in user
             else
             {
-                var loggedInUserId = ProfileService.GetLoggedInUserId();
+                int loggedInUserId = ProfileService.GetLoggedInUserId();
 
                 Profile = (await ProfileService.GetProfileAsync(loggedInUserId));
             }

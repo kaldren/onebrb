@@ -34,8 +34,8 @@ namespace Onebrb.Api.Controllers
         {
             try
             {
-                var profile = await _repository.GetProfileAsync(profileId);
-                var ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+                Profile profile = await _repository.GetProfileAsync(profileId);
+                string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 if (profile == null)
                 {
@@ -43,7 +43,7 @@ namespace Onebrb.Api.Controllers
                     return StatusCode(StatusCodes.Status404NotFound, "Profile not found");
                 }
 
-                var currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 _logger.LogWarning($"Currently logged in user id {currUserId}");
 
