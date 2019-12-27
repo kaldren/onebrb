@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Onebrb.Core.Interfaces;
 using Onebrb.Data;
+using Onebrb.Data.Repositories;
 
 namespace Onebrb.Api
 {
@@ -29,9 +31,13 @@ namespace Onebrb.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IProfileRepository, ProfileRepositoryMock>();
+            services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
