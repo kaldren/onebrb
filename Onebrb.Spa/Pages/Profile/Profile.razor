@@ -1,5 +1,6 @@
 ﻿@page "/profile"
 @page "/profile/{profileId}"
+@using Onebrb.Core.Enumerations;
 @inherits ProfileBase
 
 <h3>Profile</h3>
@@ -8,7 +9,7 @@
 {
     <h2>Loading...</h2>
 }
-else if (Profile.ProfileType == Core.Enumerations.ProfileTypeEnum.OwnProfile)
+else if (Profile.ProfileType == ProfileTypeEnum.OwnProfile)
 {
     // Show own profile and options (like editing and etc...)
     <h2>Welcome to your profile, @Profile.FirstName</h2>

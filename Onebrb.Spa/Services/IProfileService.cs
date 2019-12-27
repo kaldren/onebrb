@@ -21,5 +21,11 @@ namespace Onebrb.Spa.Services
         /// <param name="profileId">Profile id</param>
         /// <returns></returns>
         Task<Profile> GetProfileAsync(int profileId);
+
+        /// <summary>
+        /// Get logged in user Id
+        /// </summary>
+        /// <returns></returns>
+        public int GetLoggedInUserId();
     }
 }
