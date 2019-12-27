@@ -21,8 +21,6 @@ namespace Onebrb.Spa.Pages.Profile
 
         protected override async Task OnInitializedAsync()
         {
-            // Checks to see if it's the user's own profile 
-            // and shows profile data and options based on this.
             if (ProfileId != null && int.TryParse(ProfileId, out int idParameter))
             {
                 Profile = (await ProfileService.GetProfileAsync(idParameter));
