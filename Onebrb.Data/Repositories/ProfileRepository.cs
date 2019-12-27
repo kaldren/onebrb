@@ -27,14 +27,7 @@ namespace Onebrb.Data.Repositories
         {
             ApplicationUser user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == profileId);
 
-            if (user == null)
-            {
-                return null;
-            }
-
-            Profile profile = Mapping.Mapper.Map<Profile>(user);
-
-            return profile;
+            return (user == null) ? null : Mapping.Mapper.Map<Profile>(user);
         }
     }
 }
