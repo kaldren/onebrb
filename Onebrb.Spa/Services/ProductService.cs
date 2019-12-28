@@ -9,6 +9,11 @@ namespace Onebrb.Spa.Services
 {
     public class ProductService : IProductService
     {
+        public ProductService()
+        {
+
+        }
+
         public Task<Product> CreateProductAsync(Product product)
         {
             throw new NotImplementedException();

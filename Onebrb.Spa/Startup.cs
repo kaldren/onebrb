@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Onebrb.Spa.Areas.Identity;
 using Onebrb.Data;
 using Onebrb.Spa.Services;
+using System.Net.Http;
 
 namespace Onebrb.Spa
 {
@@ -35,10 +36,15 @@ namespace Onebrb.Spa
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
-            services.AddHttpClient<IProfileService, ProfileService>(opt =>
+            services.AddScoped(config =>
             {
-                opt.BaseAddress = new Uri("https://localhost:44315");
+                var client = new HttpClient { BaseAddress = new Uri("https://localhost:44315") };
+                return client;
             });
+
+            services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IProductService, ProductService>();
+
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
         }
 
