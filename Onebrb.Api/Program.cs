@@ -23,7 +23,8 @@ namespace Onebrb.Api
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
+                //.ReadFrom.Configuration(Configuration)
+                .WriteTo.Console()
                 .CreateLogger();
 
             try
@@ -47,7 +48,7 @@ namespace Onebrb.Api
                 {
                     webBuilder
                     .UseStartup<Startup>()
-                    .UseUrls("http://localhost:6000")
+                    .UseUrls("https://localhost:44315")
                     .UseSerilog();
                 });
     }

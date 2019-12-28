@@ -24,7 +24,8 @@ namespace Onebrb.Spa
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
+                //.ReadFrom.Configuration(Configuration)
+                .WriteTo.Console()
                 .CreateLogger();
 
             try
