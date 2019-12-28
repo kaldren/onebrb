@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Onebrb.Core.Entities
 {
-    public class Item
+    public class Product
     {
         public int Id { get; set; }
         public string Title { get; set; }

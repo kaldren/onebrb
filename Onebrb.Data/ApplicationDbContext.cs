@@ -13,7 +13,7 @@ namespace Onebrb.Data
         }
 
         public DbSet<Profile> Profiles { get; set; }
-        public DbSet<Item> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
     }
 }
