@@ -45,7 +45,7 @@ namespace Onebrb.Api.Controllers
 
                 string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                _logger.LogWarning($"Currently logged in user id {currUserId}");
+                _logger.LogInformation($"Currently logged in user id {currUserId}");
 
                 if (currUserId != null && int.TryParse(currUserId, out int userIdNumeric) && userIdNumeric == profileId)
                 {
@@ -60,7 +60,7 @@ namespace Onebrb.Api.Controllers
             }
             catch (CouldNotGetProfileException ex)
             {
-                _logger.LogWarning("CouldNotGetProfileException exception catched", ex.StackTrace);
+                _logger.LogWarning($"Couldn't get profile with id {profileId}", ex.StackTrace);
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
         }
