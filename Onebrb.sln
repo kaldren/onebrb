@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onebrb.Data", "Onebrb.Data\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onebrb.UnitTests", "Onebrb.UnitTests\Onebrb.UnitTests.csproj", "{4F413CDE-D829-4674-8BE0-3F4E91E79E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Onebrb.Api", "Onebrb.Api\Onebrb.Api.csproj", "{529CED50-A3E8-4D06-A68D-3F22EF5560CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Onebrb.Api", "Onebrb.Api\Onebrb.Api.csproj", "{529CED50-A3E8-4D06-A68D-3F22EF5560CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
