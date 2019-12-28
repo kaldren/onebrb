@@ -9,6 +9,8 @@ namespace Onebrb.Spa.Pages.Product
 {
     public class CreateProductBase : ComponentBase
     {
-        
+        protected Product Product { get; set; }
+
+        public int MyProperty { get; set; }
     }
 }
