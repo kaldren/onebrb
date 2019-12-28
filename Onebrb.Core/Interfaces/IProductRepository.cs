@@ -15,5 +15,12 @@ namespace Onebrb.Core.Interfaces
         /// <param name="product">The product</param>
         /// <returns>The product</returns>
         Task<Product> CreateProductAsync(Product product);
+
+        /// <summary>
+        /// Gets a product by Id
+        /// </summary>
+        /// <param name="productId">The product id</param>
+        /// <returns>The product</returns>
+        Task<Product> GetProductAsync(int productId);
     }
 }

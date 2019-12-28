@@ -27,7 +27,7 @@ namespace Onebrb.UnitTests
 
             mock.Setup(x => x.GetProfileAsync(profileId)).ReturnsAsync(new Profile
             {
-                Id = 1,
+                ProfileId = 1,
                 FirstName = "Kaloyan",
                 LastName = "Drenski",
                 Email = "drenski666@gmail.com"

@@ -1,4 +1,5 @@
-﻿using Onebrb.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,11 @@ namespace Onebrb.Data.Repositories
             await _dbContext.SaveChangesAsync();
 
             return product;
+        }
+
+        public async Task<Product> GetProductAsync(int productId)
+        {
+            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
         }
     }
 }

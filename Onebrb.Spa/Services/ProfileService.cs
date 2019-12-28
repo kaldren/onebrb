@@ -35,7 +35,7 @@ namespace Onebrb.Spa.Services
 
             // Checks if the profile belongs to the logged in user or not
             // and marks the profile accordingly.
-            if (profile != null && int.TryParse(userId, out int userIdNumeric) && profile.Id == userIdNumeric)
+            if (profile != null && int.TryParse(userId, out int userIdNumeric) && profile.ProfileId == userIdNumeric)
             {
                 profile.ProfileType = ProfileTypeEnum.OwnProfile;
             }

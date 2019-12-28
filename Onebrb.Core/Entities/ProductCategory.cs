@@ -9,7 +9,7 @@ namespace Onebrb.Core.Entities
 {
     public class ProductCategory
     {
-        public int Id { get; set; }
+        public int ProductCategoryId { get; set; }
         public ProductCategoryEnum Category { get; set; }
     }
 }

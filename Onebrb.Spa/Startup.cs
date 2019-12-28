@@ -11,6 +11,7 @@ using Onebrb.Spa.Areas.Identity;
 using Onebrb.Data;
 using Onebrb.Spa.Services;
 using System.Net.Http;
+using Onebrb.Core.Entities;
 
 namespace Onebrb.Spa
 {

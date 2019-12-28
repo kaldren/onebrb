@@ -10,7 +10,7 @@ using Onebrb.Data;
 namespace Onebrb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191226194334_Init")]
+    [Migration("20191228184259_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,10 +70,12 @@ namespace Onebrb.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -109,10 +111,12 @@ namespace Onebrb.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -122,7 +126,7 @@ namespace Onebrb.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Onebrb.Data.ApplicationRole", b =>
+            modelBuilder.Entity("Onebrb.Core.Entities.ApplicationRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +155,7 @@ namespace Onebrb.Data.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Onebrb.Data.ApplicationUser", b =>
+            modelBuilder.Entity("Onebrb.Core.Entities.ApplicationUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,6 +163,9 @@ namespace Onebrb.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ApplicationUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -224,9 +231,55 @@ namespace Onebrb.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProductCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Onebrb.Core.Entities.ProductCategory", b =>
+                {
+                    b.Property<int>("ProductCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductCategoryId");
+
+                    b.ToTable("ProductCategories");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Onebrb.Data.ApplicationRole", null)
+                    b.HasOne("Onebrb.Core.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -235,7 +288,7 @@ namespace Onebrb.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("Onebrb.Data.ApplicationUser", null)
+                    b.HasOne("Onebrb.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -244,7 +297,7 @@ namespace Onebrb.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("Onebrb.Data.ApplicationUser", null)
+                    b.HasOne("Onebrb.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,13 +306,13 @@ namespace Onebrb.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Onebrb.Data.ApplicationRole", null)
+                    b.HasOne("Onebrb.Core.Entities.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Onebrb.Data.ApplicationUser", null)
+                    b.HasOne("Onebrb.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,11 +321,24 @@ namespace Onebrb.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("Onebrb.Data.ApplicationUser", null)
+                    b.HasOne("Onebrb.Core.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
+                {
+                    b.HasOne("Onebrb.Core.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Products")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Onebrb.Core.Entities.ProductCategory", "ProductCategory")
+                        .WithMany()
+                        .HasForeignKey("ProductCategoryId");
                 });
 #pragma warning restore 612, 618
         }

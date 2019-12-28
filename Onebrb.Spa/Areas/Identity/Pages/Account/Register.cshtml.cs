@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Onebrb.Core.Entities;
 using Onebrb.Data;
 
 namespace Onebrb.Spa.Areas.Identity.Pages.Account

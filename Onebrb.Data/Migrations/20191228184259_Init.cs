@@ -42,12 +42,26 @@ namespace Onebrb.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    ApplicationUserId = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductCategories",
+                columns: table => new
+                {
+                    ProductCategoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Category = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductCategories", x => x.ProductCategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,8 +110,8 @@ namespace Onebrb.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<int>(nullable: false)
                 },
@@ -141,8 +155,8 @@ namespace Onebrb.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -154,6 +168,35 @@ namespace Onebrb.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Price = table.Column<decimal>(nullable: true),
+                    ProductCategoryId = table.Column<int>(nullable: true),
+                    ApplicationUserId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Products_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Products_ProductCategories_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
+                        principalTable: "ProductCategories",
+                        principalColumn: "ProductCategoryId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -194,6 +237,16 @@ namespace Onebrb.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ApplicationUserId",
+                table: "Products",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductCategoryId",
+                table: "Products",
+                column: "ProductCategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -214,10 +267,16 @@ namespace Onebrb.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ProductCategories");
         }
     }
 }

@@ -31,13 +31,15 @@ namespace Onebrb.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")));
+
+            services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

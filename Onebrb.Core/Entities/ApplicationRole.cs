@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Onebrb.Data
+namespace Onebrb.Core.Entities
 {
     public class ApplicationRole : IdentityRole<int>
     {
