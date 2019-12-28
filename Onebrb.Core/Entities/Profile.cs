@@ -12,5 +12,6 @@ namespace Onebrb.Core.Entities
         public string LastName { get; set; }
         public string Email { get; set; }
         public ProfileTypeEnum ProfileType { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

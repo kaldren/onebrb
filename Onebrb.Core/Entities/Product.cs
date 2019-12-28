@@ -11,5 +11,8 @@ namespace Onebrb.Core.Entities
         public string Description { get; set; }
         public decimal? Price { get; set; }
         public ProductCategory Category { get; set; }
+
+        public int OwnerId { get; set; }
+        public Profile Owner { get; set; }
     }
 }
