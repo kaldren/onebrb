@@ -13,5 +13,6 @@ namespace Onebrb.Core.Entities
         public string Description { get; set; }
         public decimal? Price { get; set; }
         public Category Category { get; set; }
+        public ApplicationUser Owner { get; set; }
     }
 }
