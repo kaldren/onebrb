@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Onebrb.Core.Entities
 {
-    public class ProductCategory
+    public class Category
     {
-        public int ProductCategoryId { get; set; }
-        public ProductCategoryEnum Category { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

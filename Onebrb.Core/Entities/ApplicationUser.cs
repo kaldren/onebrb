@@ -10,6 +10,5 @@ namespace Onebrb.Core.Entities
         public int ApplicationUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<Product> Products { get; set; }
     }
 }

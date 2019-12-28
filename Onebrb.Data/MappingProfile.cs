@@ -12,7 +12,10 @@ namespace Onebrb.Data
     {
         public MappingProfile()
         {
-            CreateMap<Core.Entities.ApplicationUser, Core.Entities.Profile>();
+            CreateMap<Core.Entities.ApplicationUser, Core.Entities.Profile>()
+                .ReverseMap();
+            CreateMap<Core.Entities.Product, Core.Models.ProductModel>()
+                .ReverseMap();
             // Additional mappings here...
         }
     }

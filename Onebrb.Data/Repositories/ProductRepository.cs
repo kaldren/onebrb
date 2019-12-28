@@ -27,7 +27,7 @@ namespace Onebrb.Data.Repositories
 
         public async Task<Product> GetProductAsync(int productId)
         {
-            return await _dbContext.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+            return await _dbContext.Products.Include(category => category.Category).SingleOrDefaultAsync(x => x.Id == productId);
         }
     }
 }

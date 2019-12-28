@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Onebrb.Data;
 
 namespace Onebrb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191228211310_wip2")]
+    partial class wip2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,7 +231,33 @@ namespace Onebrb.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Onebrb.Core.Entities.Category", b =>
+            modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ProductCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Onebrb.Core.Entities.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,32 +270,6 @@ namespace Onebrb.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -323,9 +325,9 @@ namespace Onebrb.Data.Migrations
 
             modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
                 {
-                    b.HasOne("Onebrb.Core.Entities.Category", "Category")
+                    b.HasOne("Onebrb.Core.Entities.ProductCategory", "ProductCategory")
                         .WithMany("Product")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("ProductCategoryId");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces;
+using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,17 @@ namespace Onebrb.Api.Controllers
         private readonly IProductRepository _productRepository;
         private readonly ILogger<ProductController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly AutoMapper.IMapper _mapper;
 
-        public ProductController(IProductRepository productRepository, ILogger<ProductController> logger, IHttpContextAccessor httpContextAccessor)
+        public ProductController(IProductRepository productRepository, 
+                                 ILogger<ProductController> logger, 
+                                 IHttpContextAccessor httpContextAccessor,
+                                 AutoMapper.IMapper mapper)
         {
             _productRepository = productRepository;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _mapper = mapper;
         }
 
         [HttpPost]
@@ -35,11 +41,12 @@ namespace Onebrb.Api.Controllers
             return CreatedAtAction(nameof(GetProductByIdAsync), productCreated);
         }
 
-        public async Task<ActionResult<Profile>> GetProductByIdAsync(Product product)
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<ProductModel>> GetProductByIdAsync(int productId)
         {
-            var productFetched = await _productRepository.GetProductAsync(product.ProductId);
+            Product product = await _productRepository.GetProductAsync(productId);
 
-            return Ok(productFetched);
+            return _mapper.Map<ProductModel>(product);
         }
     }
 }

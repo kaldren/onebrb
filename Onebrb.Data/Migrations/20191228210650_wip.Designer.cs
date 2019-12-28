@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Onebrb.Data;
 
 namespace Onebrb.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191228210650_wip")]
+    partial class wip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,21 +231,6 @@ namespace Onebrb.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Onebrb.Core.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -268,6 +255,21 @@ namespace Onebrb.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Onebrb.Core.Entities.ProductCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -323,8 +325,8 @@ namespace Onebrb.Data.Migrations
 
             modelBuilder.Entity("Onebrb.Core.Entities.Product", b =>
                 {
-                    b.HasOne("Onebrb.Core.Entities.Category", "Category")
-                        .WithMany("Product")
+                    b.HasOne("Onebrb.Core.Entities.ProductCategory", "Category")
+                        .WithMany()
                         .HasForeignKey("CategoryId");
                 });
 #pragma warning restore 612, 618
