@@ -15,5 +15,11 @@ namespace Onebrb.Spa.Services
         /// <param name="product">The product</param>
         /// <returns>The product</returns>
         Task<Product> CreateProductAsync(Product product);
+
+        /// <summary>
+        /// Gets all products asynchronously
+        /// </summary>
+        /// <returns>The products</returns>
+        Task<ICollection<Product>> GetAllProducts();
     }
 }

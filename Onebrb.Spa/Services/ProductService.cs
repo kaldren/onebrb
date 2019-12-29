@@ -37,5 +37,16 @@ namespace Onebrb.Spa.Services
 
             return null;
         }
+
+        public async Task<ICollection<Product>> GetAllProducts()
+        {
+            ICollection<Product> products = await JsonSerializer.DeserializeAsync<ICollection<Product>>
+                (await _httpClient.GetStreamAsync($"api/product"), new JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return products;
+        }
     }
 }
