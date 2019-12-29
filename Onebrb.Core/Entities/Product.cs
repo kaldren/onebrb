@@ -12,6 +12,8 @@ namespace Onebrb.Core.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal? Price { get; set; }
+        public bool IsFree { get; set; }
+        public bool IsNegotiable { get; set; }
         public Category Category { get; set; }
         public ApplicationUser Owner { get; set; }
     }

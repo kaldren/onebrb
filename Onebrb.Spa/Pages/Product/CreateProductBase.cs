@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Onebrb.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,12 @@ namespace Onebrb.Spa.Pages.Product
 {
     public class CreateProductBase : ComponentBase
     {
-        protected Product Product { get; set; }
+        protected Core.Entities.Product Product { get; set; } = new Core.Entities.Product();
+        protected List<Category> Categories { get; set; } = new List<Category>();
 
-        public int MyProperty { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            
+        }
     }
 }

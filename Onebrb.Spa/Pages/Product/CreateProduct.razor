@@ -1,3 +1,29 @@
 ﻿@page "/product/create"
+@inherits CreateProductBase
 
 <h2>Add product to Onebrb</h2>
+
+<div class="create-product">
+    <EditForm Model="@Product">
+        <div class="form-group row">
+            <InputText id="productTitle" @bind-Value="@Product.Title" class="form-control col-md-8" placeholder="Name"></InputText>
+            @*<ValidationMessage class="offset-md-3 col-md-8" For="@(() => Employee.LastName)" />*@
+        </div>
+        <div class="form-group row">
+            <InputTextArea id="productDescription" @bind-Value="@Product.Description" class="form-control col-md-8" placeholder="Description"></InputTextArea>
+            @*<ValidationMessage class="offset-md-3 col-md-8" For="@(() => Employee.LastName)" />*@
+        </div>
+        <div class="form-group row">
+            <InputNumber id="title" @bind-Value="@Product.Price" class="form-control col-md-2" placeholder="Price"></InputNumber>
+            <div class="col-md-2">
+                <label for="productFree">Free: </label>
+                <InputCheckbox id="productFree" @bind-Value="@Product.IsFree" />
+            </div>
+            <div class="col-md-2">
+                <label for="productNegotiation">Negotiable: </label>
+                <InputCheckbox id="productNegotiation" @bind-Value="@Product.IsNegotiable" />
+            </div>
+            @*<ValidationMessage class="offset-md-3 col-md-8" For="@(() => Employee.LastName)" />*@
+        </div>
+    </EditForm>
+</div>
