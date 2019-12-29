@@ -14,6 +14,32 @@ namespace Onebrb.UnitTests
     public class ProductRepositoryShould
     {
         [Fact]
+        public async void CreateNewProductAndReturnIt()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "CreateNewProduct")
+                .Options;
+
+            Product productToAdd = new Product
+            {
+                Id = 1,
+                Title = "Test title",
+                Description = "Test description",
+                Price = 12
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var productRepo = new ProductRepository(context);
+
+                var product = await productRepo.CreateProductAsync(productToAdd);
+
+                Assert.IsType<Product>(product);
+                Assert.Equal(1, context.Products.Count());
+            }
+        }
+
+        [Fact]
         public async void ReturnProductById()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
