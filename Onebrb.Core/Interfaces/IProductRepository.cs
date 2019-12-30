@@ -22,5 +22,12 @@ namespace Onebrb.Core.Interfaces
         /// <param name="productId">The product id</param>
         /// <returns>The product</returns>
         Task<Product> GetProductAsync(int productId);
+
+        /// <summary>
+        /// Gets all products by given nickname
+        /// </summary>
+        /// <param name="nickname">The nickname</param>
+        /// <returns>The products</returns>
+        Task<IEnumerable<Product>> GetAllProductsAsync(string nickname);
     }
 }

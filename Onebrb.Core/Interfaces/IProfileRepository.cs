@@ -9,16 +9,24 @@ namespace Onebrb.Core.Interfaces
     public interface IProfileRepository
     {
         /// <summary>
-        /// Get own profile asynchronously
+        /// Get own profile
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The profile</returns>
         Task<Profile> GetProfileAsync();
 
         /// <summary>
-        /// Get profile by id asynchronously
+        /// Get profile by id
         /// </summary>
         /// <param name="profileId">profile id</param>
-        /// <returns></returns>
+        /// <returns>The profile</returns>
         Task<Profile> GetProfileAsync(int profileId);
+
+
+        /// <summary>
+        /// Get profile by nickname
+        /// </summary>
+        /// <param name="nickname">nickname</param>
+        /// <returns>The profile</returns>
+        Task<Profile> GetProfileAsync(string nickname);
     }
 }

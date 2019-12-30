@@ -25,6 +25,15 @@ namespace Onebrb.Data.Repositories
             return product;
         }
 
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(string nickname)
+        {
+            return await _dbContext.Products
+                            .Include(u => u.Owner)
+                            .Include(c => c.Category)
+                            .Where(p => p.Owner.Nickname == nickname)
+                            .ToListAsync();
+        }
+
         public async Task<Product> GetProductAsync(int productId)
         {
             return await _dbContext.Products

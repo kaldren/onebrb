@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Onebrb.Core.Enumerations;
+using Onebrb.Core.Models;
 
 namespace Onebrb.Api.Controllers
 {
@@ -18,23 +19,31 @@ namespace Onebrb.Api.Controllers
     [Route("api/[controller]")]
     public class ProfilesController : ControllerBase
     {
-        private readonly IProfileRepository _repository;
+        private readonly IProfileRepository _profileRepository;
         private readonly ILogger<ProfilesController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IProductRepository _productRepository;
+        private readonly AutoMapper.IMapper _mapper;
 
-        public ProfilesController(IProfileRepository repository, ILogger<ProfilesController> logger, IHttpContextAccessor httpContextAccessor)
+        public ProfilesController(IProfileRepository profileRepository, 
+                                  ILogger<ProfilesController> logger, 
+                                  IHttpContextAccessor httpContextAccessor,
+                                  IProductRepository productRepository,
+                                  AutoMapper.IMapper mapper)
         {
-            _repository = repository;
+            _profileRepository = profileRepository;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _productRepository = productRepository;
+            _mapper = mapper;
         }
 
         [HttpGet("{profileId:int}")]
-        public async Task<ActionResult<Profile>> Get(int profileId)
+        public async Task<ActionResult<ProfileModel>> Get(int profileId)
         {
             try
             {
-                Profile profile = await _repository.GetProfileAsync(profileId);
+                Profile profile = await _profileRepository.GetProfileAsync(profileId);
                 string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
                 if (profile == null)
@@ -56,13 +65,28 @@ namespace Onebrb.Api.Controllers
                     profile.ProfileType = ProfileTypeEnum.NotOwnProfile;
                 }
 
-                return profile;
+                return _mapper.Map<ProfileModel>(profile);
             }
             catch (CouldNotGetProfileException ex)
             {
                 _logger.LogWarning($"Couldn't get profile with id {profileId}", ex.StackTrace);
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
+        }
+
+        public async Task<ActionResult<ProfileModel>> GetProfileByNickname(string nickname)
+        {
+            Profile profile = await _profileRepository.GetProfileAsync(nickname);
+
+            return (profile == null) ? null : _mapper.Map<ProfileModel>(profile);
+        }
+
+        [HttpGet("{nickname}/products")]
+        public async Task<IEnumerable<ProductModel>> GetAllProducts(string nickname)
+        {
+            IEnumerable<Product> allProducts =  await _productRepository.GetAllProductsAsync(nickname);
+
+            return (allProducts == null) ? null : _mapper.Map<IEnumerable<ProductModel>>(allProducts);
         }
     }
 }

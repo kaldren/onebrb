@@ -25,9 +25,16 @@ namespace Onebrb.Data.Repositories
 
         public async Task<Profile> GetProfileAsync(int profileId)
         {
-            ApplicationUser user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == profileId);
+            ApplicationUser profile = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == profileId);
 
-            return (user == null) ? null : Mapping.Mapper.Map<Profile>(user);
+            return (profile == null) ? null : Mapping.Mapper.Map<Profile>(profile);
+        }
+
+        public async Task<Profile> GetProfileAsync(string nickname)
+        {
+            ApplicationUser profile = await _dbContext.Users.FirstOrDefaultAsync(u => u.Nickname == nickname);
+
+            return (profile == null) ? null : Mapping.Mapper.Map<Profile>(profile);
         }
     }
 }
