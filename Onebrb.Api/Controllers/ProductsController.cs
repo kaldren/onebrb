@@ -37,7 +37,7 @@ namespace Onebrb.Api.Controllers
         {
             Product productCreated = await _productRepository.CreateProductAsync(product);
 
-            return CreatedAtAction(nameof(GetProductByIdAsync), productCreated);
+            return Created(nameof(GetProductByIdAsync), productCreated);
         }
 
         [HttpGet("{productId}")]
