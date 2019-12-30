@@ -14,15 +14,15 @@ namespace Onebrb.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
-        private readonly ILogger<ProductController> _logger;
+        private readonly ILogger<ProductsController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AutoMapper.IMapper _mapper;
 
-        public ProductController(IProductRepository productRepository, 
-                                 ILogger<ProductController> logger, 
+        public ProductsController(IProductRepository productRepository, 
+                                 ILogger<ProductsController> logger, 
                                  IHttpContextAccessor httpContextAccessor,
                                  AutoMapper.IMapper mapper)
         {
@@ -33,7 +33,6 @@ namespace Onebrb.Api.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
         public async Task<ActionResult<Profile>> CreateProductAsync([FromBody] Product product)
         {
             Product productCreated = await _productRepository.CreateProductAsync(product);

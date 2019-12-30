@@ -16,13 +16,13 @@ namespace Onebrb.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProfileController : ControllerBase
+    public class ProfilesController : ControllerBase
     {
         private readonly IProfileRepository _repository;
-        private readonly ILogger<ProfileController> _logger;
+        private readonly ILogger<ProfilesController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProfileController(IProfileRepository repository, ILogger<ProfileController> logger, IHttpContextAccessor httpContextAccessor)
+        public ProfilesController(IProfileRepository repository, ILogger<ProfilesController> logger, IHttpContextAccessor httpContextAccessor)
         {
             _repository = repository;
             _logger = logger;
