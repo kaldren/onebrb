@@ -25,17 +25,15 @@ namespace Onebrb.Spa.Services
 
         public async Task<Profile> GetProfileAsync(int profileId)
         {
-            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
             Profile profile = await JsonSerializer.DeserializeAsync<Profile>
-                (await _httpClient.GetStreamAsync($"api/profile/{profileId}"), new JsonSerializerOptions()
+                (await _httpClient.GetStreamAsync($"/profiles/{profileId}"), new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
             // Checks if the profile belongs to the logged in user or not
             // and marks the profile accordingly.
-            if (profile != null && int.TryParse(userId, out int userIdNumeric) && profile.ProfileId == userIdNumeric)
+            if (profile != null && profile.ProfileId == profileId)
             {
                 profile.ProfileType = ProfileTypeEnum.OwnProfile;
             }

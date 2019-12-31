@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Onebrb.Core.Enumerations;
 using Onebrb.Core.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Onebrb.Api.Controllers
 {
@@ -23,18 +24,21 @@ namespace Onebrb.Api.Controllers
         private readonly ILogger<ProfilesController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IProductRepository _productRepository;
+        private readonly IConfiguration _config;
         private readonly AutoMapper.IMapper _mapper;
 
         public ProfilesController(IProfileRepository profileRepository, 
                                   ILogger<ProfilesController> logger, 
                                   IHttpContextAccessor httpContextAccessor,
                                   IProductRepository productRepository,
+                                  IConfiguration config,
                                   AutoMapper.IMapper mapper)
         {
             _profileRepository = profileRepository;
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
             _productRepository = productRepository;
+            _config = config;
             _mapper = mapper;
         }
 
@@ -50,6 +54,7 @@ namespace Onebrb.Api.Controllers
         public async Task<ActionResult<ProfileModel>> GetProfileByNickname(string nickname)
         {
             ApplicationUser profile = await _profileRepository.GetProfileAsync(nickname);
+            profile.ProductsUrl = _config.GetSection("ApiConfiguration").GetSection("ApiUrl").Value + $"{profile.ProductsUrl}";
 
             return (profile == null) ? null : _mapper.Map<ProfileModel>(profile);
         }

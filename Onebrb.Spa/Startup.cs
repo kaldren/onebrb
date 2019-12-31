@@ -39,7 +39,7 @@ namespace Onebrb.Spa
 
             services.AddScoped(config =>
             {
-                var client = new HttpClient { BaseAddress = new Uri("https://localhost:44315") };
+                var client = new HttpClient { BaseAddress = new Uri(Configuration.GetSection("ApiConfiguration").GetSection("ApiUrl").Value) };
                 return client;
             });
 

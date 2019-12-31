@@ -54,10 +54,12 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
         {
             [Required]
             [Display(Name = "First Name")]
+            [MinLength(1), MaxLength(20)]
             public string FirstName { get; set; }
 
             [Required]
             [Display(Name = "Last Name")]
+            [MinLength(1), MaxLength(20)]
             public string LastName { get; set; }
 
             [Required]
@@ -100,7 +102,7 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName, 
                     LastName = Input.LastName,
                     Nickname = Input.Nickname,
-                    ProductsUrl = _config.GetSection("ApiConfiguration").GetSection("ProfilesUrl").Value + $"/{Input.Nickname}/products"
+                    ProductsUrl = $"/profiles/{Input.Nickname}/products"
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
