@@ -11,9 +11,11 @@ namespace Onebrb.Core.Entities
         [Required]
         [MinLength(1), MaxLength(20)]
         public string FirstName { get; set; }
+
         [Required]
         [MinLength(1), MaxLength(20)]
         public string LastName { get; set; }
+
         [Required]
         [MinLength(3), MaxLength(14)]
         public string Nickname { get; set; }

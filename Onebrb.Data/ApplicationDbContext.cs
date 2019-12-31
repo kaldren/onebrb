@@ -16,6 +16,15 @@ namespace Onebrb.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ApplicationUser>()
+                .HasIndex(b => b.ProductsUrl)
+                .IsUnique();
+
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
     }

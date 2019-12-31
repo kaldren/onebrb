@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Onebrb.Core.Entities;
 using Onebrb.Data;
+using Onebrb.Spa.Attributes;
 
 namespace Onebrb.Spa.Areas.Identity.Pages.Account
 {
@@ -25,17 +27,20 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _config;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _config = config;
         }
 
         [BindProperty]
@@ -54,6 +59,11 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
+
+            [Required]
+            [MinLength(3), MaxLength(14)]
+            [UniqueNicknameAttribute]
+            public string Nickname { get; set; }
 
             [Required]
             [EmailAddress]
@@ -84,7 +94,14 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
+                var user = new ApplicationUser { 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    FirstName = Input.FirstName, 
+                    LastName = Input.LastName,
+                    Nickname = Input.Nickname,
+                    ProductsUrl = _config.GetSection("ApiConfiguration").GetSection("ProfilesUrl").Value + $"/{Input.Nickname}/products"
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
