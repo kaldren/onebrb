@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Enumerations;
+using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,24 +24,13 @@ namespace Onebrb.Spa.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Profile> GetProfileAsync(int profileId)
+        public async Task<ProfileModel> GetProfileAsync(int profileId)
         {
-            Profile profile = await JsonSerializer.DeserializeAsync<Profile>
+            ProfileModel profile = await JsonSerializer.DeserializeAsync<ProfileModel>
                 (await _httpClient.GetStreamAsync($"/profiles/{profileId}"), new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
-
-            // Checks if the profile belongs to the logged in user or not
-            // and marks the profile accordingly.
-            if (profile != null && profile.ProfileId == profileId)
-            {
-                profile.ProfileType = ProfileTypeEnum.OwnProfile;
-            }
-            else
-            {
-                profile.ProfileType = ProfileTypeEnum.NotOwnProfile;
-            }
 
             return profile;
         }

@@ -1,4 +1,5 @@
 ﻿using Onebrb.Core.Entities;
+using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Onebrb.Spa.Services
         /// </summary>
         /// <param name="profileId">Profile id</param>
         /// <returns></returns>
-        Task<Profile> GetProfileAsync(int profileId);
+        Task<ProfileModel> GetProfileAsync(int profileId);
 
         /// <summary>
         /// Get logged in user Id

@@ -9,12 +9,7 @@
 {
     <h2>Loading...</h2>
 }
-else if (Profile.ProfileType == ProfileTypeEnum.OwnProfile)
+else 
 {
-    <h2>Welcome to your profile, @Profile.FirstName</h2>
-}
-else
-{
-    <h2>Profile of @Profile.FirstName @Profile.LastName</h2>
-    <h2>Email: @Profile.Email</h2>
+    <h2>Profile of @Profile.FirstName @Profile.LastName ( @Profile.Nickname )</h2>
 }

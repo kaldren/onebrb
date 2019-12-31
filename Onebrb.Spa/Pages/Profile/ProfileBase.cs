@@ -11,7 +11,7 @@ namespace Onebrb.Spa.Pages.Profile
 {
     public class ProfileBase : ComponentBase
     {
-        public Core.Entities.Profile Profile { get; set; }
+        public Core.Models.ProfileModel Profile { get; set; }
 
         [Parameter]
         public string ProfileId { get; set; }
