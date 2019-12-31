@@ -18,23 +18,19 @@ namespace Onebrb.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public Task<Profile> GetProfileAsync()
+        public Task<ApplicationUser> GetProfileAsync()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Profile> GetProfileAsync(int profileId)
+        public async Task<ApplicationUser> GetProfileAsync(int profileId)
         {
-            ApplicationUser profile = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == profileId);
-
-            return (profile == null) ? null : Mapping.Mapper.Map<Profile>(profile);
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == profileId);
         }
 
-        public async Task<Profile> GetProfileAsync(string nickname)
+        public async Task<ApplicationUser> GetProfileAsync(string nickname)
         {
-            ApplicationUser profile = await _dbContext.Users.FirstOrDefaultAsync(u => u.Nickname == nickname);
-
-            return (profile == null) ? null : Mapping.Mapper.Map<Profile>(profile);
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Nickname == nickname);
         }
     }
 }

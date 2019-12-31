@@ -15,6 +15,5 @@ namespace Onebrb.Core.Models
         public bool IsFree { get; set; }
         public bool IsNegotiable { get; set; }
         public CategoryModel Category { get; set; }
-        public ProfileModel Owner { get; set; }
     }
 }

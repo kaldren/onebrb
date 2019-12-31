@@ -12,14 +12,14 @@ namespace Onebrb.Core.Interfaces
         /// Get own profile
         /// </summary>
         /// <returns>The profile</returns>
-        Task<Profile> GetProfileAsync();
+        Task<ApplicationUser> GetProfileAsync();
 
         /// <summary>
         /// Get profile by id
         /// </summary>
         /// <param name="profileId">profile id</param>
         /// <returns>The profile</returns>
-        Task<Profile> GetProfileAsync(int profileId);
+        Task<ApplicationUser> GetProfileAsync(int profileId);
 
 
         /// <summary>
@@ -27,6 +27,6 @@ namespace Onebrb.Core.Interfaces
         /// </summary>
         /// <param name="nickname">nickname</param>
         /// <returns>The profile</returns>
-        Task<Profile> GetProfileAsync(string nickname);
+        Task<ApplicationUser> GetProfileAsync(string nickname);
     }
 }

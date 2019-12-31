@@ -17,5 +17,8 @@ namespace Onebrb.Core.Entities
         [Required]
         [MinLength(3), MaxLength(14)]
         public string Nickname { get; set; }
+
+        [Required]
+        public string ProductsUrl { get; set; }
     }
 }

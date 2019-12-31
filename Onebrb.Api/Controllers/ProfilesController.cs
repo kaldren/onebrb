@@ -16,7 +16,7 @@ using Onebrb.Core.Models;
 namespace Onebrb.Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProfilesController : ControllerBase
     {
         private readonly IProfileRepository _profileRepository;
@@ -41,42 +41,15 @@ namespace Onebrb.Api.Controllers
         [HttpGet("{profileId:int}")]
         public async Task<ActionResult<ProfileModel>> Get(int profileId)
         {
-            try
-            {
-                Profile profile = await _profileRepository.GetProfileAsync(profileId);
-                string ipAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+            ApplicationUser profile = await _profileRepository.GetProfileAsync(profileId);
 
-                if (profile == null)
-                {
-                    _logger.LogWarning($"{ipAddress}: Couldn't fetch profile with id {profileId}");
-                    return StatusCode(StatusCodes.Status404NotFound, "Profile not found");
-                }
-
-                string currUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                _logger.LogInformation($"Currently logged in user id {currUserId}");
-
-                if (currUserId != null && int.TryParse(currUserId, out int userIdNumeric) && userIdNumeric == profileId)
-                {
-                    profile.ProfileType = ProfileTypeEnum.OwnProfile;
-                }
-                else
-                {
-                    profile.ProfileType = ProfileTypeEnum.NotOwnProfile;
-                }
-
-                return _mapper.Map<ProfileModel>(profile);
-            }
-            catch (CouldNotGetProfileException ex)
-            {
-                _logger.LogWarning($"Couldn't get profile with id {profileId}", ex.StackTrace);
-                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
-            }
+            return (profile == null) ? null : _mapper.Map<ProfileModel>(profile);
         }
 
+        [HttpGet("{nickname}")]
         public async Task<ActionResult<ProfileModel>> GetProfileByNickname(string nickname)
         {
-            Profile profile = await _profileRepository.GetProfileAsync(nickname);
+            ApplicationUser profile = await _profileRepository.GetProfileAsync(nickname);
 
             return (profile == null) ? null : _mapper.Map<ProfileModel>(profile);
         }

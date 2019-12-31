@@ -48,7 +48,7 @@ namespace Onebrb.Api
                 {
                     webBuilder
                     .UseStartup<Startup>()
-                    .UseUrls("https://localhost:44315")
+                    .UseUrls(Configuration.GetSection("ApiConfiguration").GetSection("ApiUrl").Value)
                     .UseSerilog();
                 });
     }
