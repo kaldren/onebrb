@@ -12,6 +12,7 @@ using Onebrb.Data;
 using Onebrb.Spa.Services;
 using System.Net.Http;
 using Onebrb.Core.Entities;
+using Onebrb.Core.Interfaces.Services;
 
 namespace Onebrb.Spa
 {
@@ -45,6 +46,7 @@ namespace Onebrb.Spa
 
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
         }

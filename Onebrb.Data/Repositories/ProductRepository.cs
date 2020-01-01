@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces;
+using Onebrb.Core.Interfaces.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,15 @@ namespace Onebrb.Data.Repositories
         }
         public async Task<Product> CreateProductAsync(Product product)
         {
-            await _dbContext.Products.AddAsync(product);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await _dbContext.Products.AddAsync(product);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't add product to database. {ex.InnerException}");
+            }
 
             return product;
         }

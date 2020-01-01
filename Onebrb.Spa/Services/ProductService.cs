@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Onebrb.Core.Entities;
+using Onebrb.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,13 @@ namespace Onebrb.Spa.Services
         {
             string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            product.Owner = new ApplicationUser();
+
+            product.Owner.Id = int.Parse(userId);
+
             var productJson = new StringContent(JsonSerializer.Serialize(product), Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("/api/product/create", productJson);
+            var response = await _httpClient.PostAsync("/products", productJson);
 
             if (response.IsSuccessStatusCode)
             {

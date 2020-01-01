@@ -9,8 +9,13 @@ namespace Onebrb.Core.Entities
     public class Product
     {
         public int Id { get; set; }
+
+        [Required]
         public string Title { get; set; }
+
+        [Required]
         public string Description { get; set; }
+
         public decimal? Price { get; set; }
         public bool IsFree { get; set; }
         public bool IsNegotiable { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces;
+using Onebrb.Core.Interfaces.Repos;
 using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Onebrb.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IList<CategoryModel>>> GetAllCategoriesAsync()
+        public async Task<ActionResult<ICollection<CategoryModel>>> GetAllCategoriesAsync()
         {
             var category = await _categoryRepository.GetAllCategoriesAsync();
 

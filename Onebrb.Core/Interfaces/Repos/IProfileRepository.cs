@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Onebrb.Core.Interfaces
+namespace Onebrb.Core.Interfaces.Repos
 {
     public interface IProfileRepository
     {

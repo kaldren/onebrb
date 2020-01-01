@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Enumerations;
+using Onebrb.Core.Interfaces.Services;
 using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;

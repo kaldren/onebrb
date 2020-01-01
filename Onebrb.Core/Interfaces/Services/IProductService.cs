@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Onebrb.Core.Interfaces
+namespace Onebrb.Core.Interfaces.Services
 {
-    public interface IProductRepository
+    public interface IProductService
     {
         /// <summary>
         /// Creates product asynchronously
@@ -17,17 +17,9 @@ namespace Onebrb.Core.Interfaces
         Task<Product> CreateProductAsync(Product product);
 
         /// <summary>
-        /// Gets a product by Id
+        /// Gets all products asynchronously
         /// </summary>
-        /// <param name="productId">The product id</param>
-        /// <returns>The product</returns>
-        Task<Product> GetProductAsync(int productId);
-
-        /// <summary>
-        /// Gets all products by given nickname
-        /// </summary>
-        /// <param name="nickname">The nickname</param>
         /// <returns>The products</returns>
-        Task<IEnumerable<Product>> GetAllProductsAsync(string nickname);
+        Task<ICollection<Product>> GetAllProducts();
     }
 }

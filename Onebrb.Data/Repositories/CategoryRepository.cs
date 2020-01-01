@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces;
+using Onebrb.Core.Interfaces.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Onebrb.Core.Interfaces
+namespace Onebrb.Core.Interfaces.Services
 {
-    public interface ICategoryRepository
+    public interface ICategoryService
     {
         /// <summary>
         /// Gets all categories asynchronously
         /// </summary>
         /// <returns>The categories</returns>
-        Task<IList<Category>> GetAllCategoriesAsync();
+        Task<ICollection<Category>> GetAllCategoriesAsync();
     }
 }

@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Onebrb.Core.Enumerations;
 using Onebrb.Core.Models;
 using Microsoft.Extensions.Configuration;
+using Onebrb.Core.Interfaces.Repos;
 
 namespace Onebrb.Api.Controllers
 {

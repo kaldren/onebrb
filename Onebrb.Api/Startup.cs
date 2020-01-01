@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Onebrb.Core.Interfaces;
+using Onebrb.Core.Interfaces.Repos;
 using Onebrb.Data;
 using Onebrb.Data.Repositories;
 

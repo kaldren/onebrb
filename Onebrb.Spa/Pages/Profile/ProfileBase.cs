@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Onebrb.Core.Entities;
+using Onebrb.Core.Interfaces.Services;
 using Onebrb.Spa.Services;
 using System;
 using System.Collections.Generic;
