@@ -3,6 +3,10 @@
 
 <h2>Add product to Onebrb</h2>
 
+<div class="row">
+    <p class="@MessageCss">@Message</p>
+</div>
+
 <div class="create-product">
     <EditForm Model="@Product" OnValidSubmit="@HandleValidFormSubmit">
         <DataAnnotationsValidator />
@@ -39,7 +43,7 @@
         </div>
 
         <div class="row">
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary" disabled="@ProductCreated">Create</button>
         </div>
 
     </EditForm>

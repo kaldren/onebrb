@@ -41,15 +41,21 @@ namespace Onebrb.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Profile>> CreateProductAsync([FromBody] Product product)
         {
-            ApplicationUser owner = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == product.Owner.Id);
-            Category category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == product.Category.Id);
+            try
+            {
+                ApplicationUser owner = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == product.Owner.Id);
+                Category category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == product.Category.Id);
 
-            product.Owner = owner;
-            product.Category = category;
+                product.Owner = owner;
+                product.Category = category;
 
-            Product productCreated = await _productRepository.CreateProductAsync(product);
-
-            return Created(nameof(GetProductByIdAsync), productCreated);
+                Product productCreated = await _productRepository.CreateProductAsync(product);
+                return Created(nameof(GetProductByIdAsync), productCreated);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Couldn't create a product {product.Title}. {ex.InnerException}");
+            }
         }
 
         [HttpGet("{productId}")]

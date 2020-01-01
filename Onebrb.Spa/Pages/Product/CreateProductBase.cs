@@ -11,17 +11,26 @@ namespace Onebrb.Spa.Pages.Product
 {
     public class CreateProductBase : ComponentBase
     {
+        #region Bindings
         protected Core.Entities.Product Product { get; set; } = new Core.Entities.Product();
 
         protected ICollection<Category> Categories { get; set; } = new List<Category>();
+        public string SelectedCategoryId { get; set; }
+        #endregion Bindings
 
+        #region Services
         [Inject]
         public ICategoryService CategoryService { get; set; }
 
         [Inject]
         public IProductService ProductService { get; set; }
+        #endregion Services
 
-        public string SelectedCategoryId { get; set; }
+        #region UI Properties
+        public bool ProductCreated { get; set; } = false;
+        public string Message { get; private set; } = string.Empty;
+        public string MessageCss { get; private set; }
+        #endregion UI Properties
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,18 +43,26 @@ namespace Onebrb.Spa.Pages.Product
             }
         }
 
-        protected void OnCategoryChange()
-        {
-
-        }
-
         protected async Task HandleValidFormSubmit()
         {
-            Category selectedCategory = Categories.FirstOrDefault(p => p.Id.ToString() == SelectedCategoryId);
             Product.Category = new Category();
-            Product.Category.Id = selectedCategory.Id;
+            Product.Category.Id = int.Parse(SelectedCategoryId);
 
-            await ProductService.CreateProductAsync(Product);
+            Core.Entities.Product productCreated = await ProductService.CreateProductAsync(Product);
+
+            if (productCreated != null)
+            {
+                ProductCreated = true;
+                Message = $"{Product.Title} has been uploaded To Onebrb.";
+                MessageCss = "alert alert-success";
+            }
+            else
+            {
+                Message = $"Something unexpected happened. Please try again later.";
+                MessageCss = "alert alert-danger";
+                ProductCreated = false;
+            }
+
             StateHasChanged();
         }
     }
