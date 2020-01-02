@@ -40,7 +40,7 @@ namespace Onebrb.Spa
 
             services.AddScoped(config =>
             {
-                var client = new HttpClient { BaseAddress = new Uri(Configuration.GetSection("ApiConfiguration").GetSection("ApiUrl").Value) };
+                var client = new HttpClient { BaseAddress = new Uri(Configuration.GetSection("ApiConfiguration:ApiUrl").Value) };
                 return client;
             });
 
