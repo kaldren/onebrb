@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Onebrb.Core.Entities;
+using Onebrb.Core.Exceptions;
 using Onebrb.Core.Interfaces;
 using Onebrb.Core.Interfaces.Repos;
 using Onebrb.Core.Models;
@@ -43,9 +45,20 @@ namespace Onebrb.Api.Controllers
         {
             try
             {
-                throw new Exception();
                 ApplicationUser owner = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == product.Owner.Id);
                 Category category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == product.Category.Id);
+
+                if (owner == null)
+                {
+                    _logger.LogWarning($"Owner with Id {product.Owner.Id} doesn't exist.");
+                    return BadRequest();
+                }
+
+                if (category == null)
+                {
+                    _logger.LogWarning($"Category with Id {product.Category.Id} doesn't exist.");
+                    return BadRequest();
+                }
 
                 product.Owner = owner;
                 product.Category = category;
@@ -53,9 +66,9 @@ namespace Onebrb.Api.Controllers
                 Product productCreated = await _productRepository.CreateProductAsync(product);
                 return Created(nameof(GetProductByIdAsync), productCreated);
             }
-            catch (Exception)
+            catch (CouldNotCreateProductException ex)
             {
-                _logger.LogError($"Couldn't create product {product.Title}.");
+                _logger.LogError(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

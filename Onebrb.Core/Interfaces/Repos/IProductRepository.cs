@@ -10,10 +10,11 @@ namespace Onebrb.Core.Interfaces.Repos
     public interface IProductRepository
     {
         /// <summary>
-        /// Creates product asynchronously
+        /// Creates a new product
         /// </summary>
         /// <param name="product">The product</param>
-        /// <returns>The product</returns>
+        /// <exception cref="Core.Exceptions.CouldNotCreateProductException">Thrown when there was an error creating the product.</exception>
+        /// <returns>The product that was created.</returns>
         Task<Product> CreateProductAsync(Product product);
 
         /// <summary>
