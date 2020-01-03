@@ -19,6 +19,7 @@ namespace Onebrb.Data.Repositories
         {
             _dbContext = dbContext;
         }
+
         public async Task<Product> CreateProductAsync(Product product)
         {
             try

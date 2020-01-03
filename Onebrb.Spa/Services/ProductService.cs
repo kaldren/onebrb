@@ -25,7 +25,7 @@ namespace Onebrb.Spa.Services
 
         public async Task<Product> CreateProductAsync(Product product)
         {
-            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value ?? "-1";
 
             product.Owner = new ApplicationUser();
 
