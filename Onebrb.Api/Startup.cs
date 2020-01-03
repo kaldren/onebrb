@@ -1,18 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Onebrb.Api.Helpers;
+using Onebrb.Api.Interfaces;
+using Onebrb.Api.Services;
+using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces;
 using Onebrb.Core.Interfaces.Repos;
 using Onebrb.Data;
@@ -43,9 +51,41 @@ namespace Onebrb.Api
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")));
 
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IAuthService, AuthService>();
+
+            services.Configure<ApiConfiguration>(Configuration.GetSection("ApiConfiguration"));
+
+            var apiConfig = Configuration.GetSection("ApiConfiguration");
+            services.Configure<ApiConfiguration>(apiConfig);
+
+            // configure jwt authentication
+            var appSettings = apiConfig.Get<ApiConfiguration>();
+            var key = Encoding.ASCII.GetBytes(appSettings.AuthSecret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,11 +97,13 @@ namespace Onebrb.Api
             }
 
             app.UseHttpsRedirection();
+            app.UseCors();
 
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

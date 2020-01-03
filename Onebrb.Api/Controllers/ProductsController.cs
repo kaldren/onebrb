@@ -41,6 +41,7 @@ namespace Onebrb.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Profile>> CreateProductAsync([FromBody] Product product)
         {
             try

@@ -13,6 +13,8 @@ using Onebrb.Spa.Services;
 using System.Net.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
+using Onebrb.Spa.Misc;
+using System.Security.Claims;
 
 namespace Onebrb.Spa
 {
@@ -32,8 +34,16 @@ namespace Onebrb.Spa
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+                }
+            )
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -47,8 +57,15 @@ namespace Onebrb.Spa
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
 
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
+            services.AddAuthentication().AddCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.LogoutPath = "/Identity/Account/Logout";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,11 +84,12 @@ namespace Onebrb.Spa
             }
 
             app.UseHttpsRedirection();
+            app.UseCors();
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

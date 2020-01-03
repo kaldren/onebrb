@@ -1,5 +1,14 @@
 ﻿@page "/product/create"
 @inherits CreateProductBase
+@attribute [Authorize]
+
+<AuthorizeView>
+    <NotAuthorized>
+        <h1>Sorry</h1>
+        <p>You're not authorized to reach this page.</p>
+        <p>You may need to log in as a different user.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 <h2>Add product to Onebrb</h2>
 

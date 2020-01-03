@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,22 +27,43 @@ namespace Onebrb.Spa.Pages.Product
 
         [Inject]
         public IProductService ProductService { get; set; }
+
+        [Inject]
+        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         #endregion Services
 
         #region UI Properties
         public bool ProductCreated { get; set; } = false;
         public string Message { get; private set; } = string.Empty;
         public string MessageCss { get; private set; }
+        public bool IsAuthenticatedUser { get; set; } = false;
+
+        public ClaimsPrincipal User { get; set; }
         #endregion UI Properties
 
         protected override async Task OnInitializedAsync()
         {
-            ICollection<Category> categoriesFromDb = (await CategoryService.GetAllCategoriesAsync());
-            SelectedCategoryId = categoriesFromDb.First().Id.ToString();
 
-            foreach (var category in categoriesFromDb)
+            // Check if it is a logged in user
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            User = authState.User;
+
+            if (User.Identity.IsAuthenticated)
             {
-                Categories.Add(category);
+                ICollection<Category> categoriesFromDb = (await CategoryService.GetAllCategoriesAsync());
+                SelectedCategoryId = categoriesFromDb.First().Id.ToString();
+
+                foreach (var category in categoriesFromDb)
+                {
+                    Categories.Add(category);
+                }
+
+                IsAuthenticatedUser = true;
+            }
+            else
+            {
+                // Not logged in
+                IsAuthenticatedUser = false;
             }
         }
 
