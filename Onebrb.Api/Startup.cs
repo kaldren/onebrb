@@ -17,6 +17,8 @@ using Onebrb.Core.Interfaces;
 using Onebrb.Core.Interfaces.Repos;
 using Onebrb.Data;
 using Onebrb.Data.Repositories;
+using Serilog;
+
 
 namespace Onebrb.Api
 {
@@ -55,6 +57,8 @@ namespace Onebrb.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Events;
 using Serilog.Formatting.Json;
 
 namespace Onebrb.Api
@@ -24,6 +25,8 @@ namespace Onebrb.Api
         {
             Log.Logger = new LoggerConfiguration()
                 //.ReadFrom.Configuration(Configuration)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
                 .WriteTo.Console()
                 .CreateLogger();
 
@@ -44,12 +47,12 @@ namespace Onebrb.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
                     .UseStartup<Startup>()
-                    .UseUrls(Configuration.GetSection("ApiConfiguration").GetSection("ApiUrl").Value)
-                    .UseSerilog();
+                    .UseUrls(Configuration.GetSection("ApiConfiguration").GetSection("ApiUrl").Value);
                 });
     }
 }

@@ -43,6 +43,7 @@ namespace Onebrb.Api.Controllers
         {
             try
             {
+                throw new Exception();
                 ApplicationUser owner = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == product.Owner.Id);
                 Category category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == product.Category.Id);
 
@@ -52,9 +53,10 @@ namespace Onebrb.Api.Controllers
                 Product productCreated = await _productRepository.CreateProductAsync(product);
                 return Created(nameof(GetProductByIdAsync), productCreated);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception($"Couldn't create a product {product.Title}. {ex.InnerException}");
+                _logger.LogError($"Couldn't create product {product.Title}.");
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
