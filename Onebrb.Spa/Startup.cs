@@ -15,6 +15,7 @@ using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
 using Onebrb.Spa.Misc;
 using System.Security.Claims;
+using Onebrb.Spa.Configurations;
 
 namespace Onebrb.Spa
 {
@@ -42,7 +43,8 @@ namespace Onebrb.Spa
                 }
             )
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
@@ -66,6 +68,8 @@ namespace Onebrb.Spa
                 options.LoginPath = "/Identity/Account/Login";
                 options.LogoutPath = "/Identity/Account/Logout";
             });
+
+            services.Configure<UriConfiguration>(options => Configuration.GetSection("UriConfiguration").Bind(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

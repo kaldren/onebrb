@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Onebrb.Api.Entities;
-using Onebrb.Api.Helpers;
+using Onebrb.Api.Configurations;
 using Onebrb.Api.Interfaces;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Models;

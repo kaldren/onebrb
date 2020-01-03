@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Onebrb.Api.Helpers
+namespace Onebrb.Api.Configurations
 {
     public class ApiConfiguration
     {

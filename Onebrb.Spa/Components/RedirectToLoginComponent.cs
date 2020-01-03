@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
+using Onebrb.Spa.Configurations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +14,19 @@ namespace Onebrb.Spa.Components
     /// </summary>
     public class RedirectToLoginComponent : ComponentBase
     {
+        private readonly UriConfiguration _uriConfig;
+
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
 
+        public RedirectToLoginComponent(IOptions<UriConfiguration> uriConfig)
+        {
+            _uriConfig = uriConfig.Value;
+        }
+
         protected override void OnInitialized()
         {
-            NavigationManager.NavigateTo("Identity/Account/Login");
+            NavigationManager.NavigateTo(_uriConfig.LoginPage);
         }
     }
 }

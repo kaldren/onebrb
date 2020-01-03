@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Onebrb.Api.Entities;
-using Onebrb.Api.Helpers;
+using Onebrb.Api.Configurations;
 using Onebrb.Api.Interfaces;
 using Onebrb.Core.Entities;
 using Onebrb.Data;

@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Onebrb.Api.Helpers;
+using Onebrb.Api.Configurations;
 using Onebrb.Api.Interfaces;
 using Onebrb.Api.Services;
 using Onebrb.Core.Entities;
@@ -59,7 +59,7 @@ namespace Onebrb.Api
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IAuthService, AuthService>();
 
-            services.Configure<ApiConfiguration>(Configuration.GetSection("ApiConfiguration"));
+            services.Configure<ApiConfiguration>(options => Configuration.GetSection("ApiConfiguration").Bind(options));
 
             var apiConfig = Configuration.GetSection("ApiConfiguration");
             services.Configure<ApiConfiguration>(apiConfig);

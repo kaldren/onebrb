@@ -136,6 +136,14 @@ app {
     top: 0.5rem;
 }
 
+/*#region -- Homepage*/
+.welcome-homepage-component {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+/*#endregion Homepage*/
+
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;

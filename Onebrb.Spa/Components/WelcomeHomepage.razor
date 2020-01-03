@@ -1,0 +1,27 @@
+﻿@using Microsoft.Extensions.Options
+@using Microsoft.Extensions.Configuration
+@using Onebrb.Spa.Configurations
+@inject IOptionsSnapshot<UriConfiguration> UriConfig
+
+<div class="welcome-homepage-component">
+    <h2 class="welcome-homepage-component__welcome-title">@WelcomeMessage</h2>
+    <div class="welcome-homepage-component__links-container">
+        <a href="@LoginPageUrl" class="btn btn-primary">Login</a>
+        <a href="@RegisterPageUrl" class="btn btn-primary">Register</a>
+        <a href="@AboutPageUrl" class="btn btn-primary">About</a>
+    </div>
+</div>
+
+@code {
+    private string WelcomeMessage { get; set; } = "Welcome to Onebrb";
+    private string LoginPageUrl { get; set; }
+    private string RegisterPageUrl { get; set; }
+    private string AboutPageUrl { get; set; }
+
+    protected override void OnInitialized()
+    {
+        LoginPageUrl = UriConfig.Value.LoginPage;
+        RegisterPageUrl = UriConfig.Value.RegisterPage;
+        AboutPageUrl = UriConfig.Value.AboutPage;
+    }
+}
