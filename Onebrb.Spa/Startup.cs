@@ -35,6 +35,7 @@ namespace Onebrb.Spa
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")));
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(
                 options =>
                 {
@@ -48,7 +49,6 @@ namespace Onebrb.Spa
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
             services.AddScoped(config =>
             {
@@ -56,6 +56,7 @@ namespace Onebrb.Spa
                 return client;
             });
 
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -63,6 +64,7 @@ namespace Onebrb.Spa
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
 
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
+
             services.AddAuthentication().AddCookie(options =>
             {
                 options.LoginPath = "/Identity/Account/Login";
