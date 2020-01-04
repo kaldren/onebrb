@@ -15,7 +15,7 @@ namespace Onebrb.Spa.Pages.Profile
         public Core.Models.ProfileModel Profile { get; set; }
 
         [Parameter]
-        public string ProfileId { get; set; }
+        public int? ProfileId { get; set; }
 
         [Parameter]
         public string ProfileNickname { get; set; }
@@ -25,19 +25,17 @@ namespace Onebrb.Spa.Pages.Profile
 
         protected override async Task OnInitializedAsync()
         {
-            if (ProfileId != null && int.TryParse(ProfileId, out int idParameter))
+            if (ProfileId != null)
             {
-                Profile = (await ProfileService.GetProfileAsync(idParameter));
+                Profile = (await ProfileService.GetProfileAsync(ProfileId.Value)) ?? (await ProfileService.GetLoggedInUserProfile());
             }
             else if (ProfileNickname != null)
             {
-                Profile = (await ProfileService.GetProfileAsync(ProfileNickname));
+                Profile = (await ProfileService.GetProfileAsync(ProfileNickname)) ?? (await ProfileService.GetLoggedInUserProfile());
             }
             else
             {
-                int loggedInUserId = ProfileService.GetLoggedInUserId();
-
-                Profile = (await ProfileService.GetProfileAsync(loggedInUserId));
+                Profile = (await ProfileService.GetLoggedInUserProfile());
             }
         }
     }

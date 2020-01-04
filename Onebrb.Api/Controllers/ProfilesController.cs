@@ -56,7 +56,12 @@ namespace Onebrb.Api.Controllers
         {
             ApplicationUser profile = await _profileRepository.GetProfileAsync(nickname);
 
-            return (profile == null) ? null : _mapper.Map<ProfileModel>(profile);
+            if (profile == null) 
+            {
+                return BadRequest("Invalid username");
+            }
+
+            return Ok(_mapper.Map<ProfileModel>(profile));
         }
 
         [HttpGet("{nickname}/products")]

@@ -24,6 +24,12 @@ namespace Onebrb.Core.Interfaces.Services
         /// <param name="profileId">Profile id</param>
         /// <returns></returns>
         Task<ProfileModel> GetProfileAsync(int profileId);
+        
+        /// <summary>
+        /// Gets the profile of the currently logged in user.
+        /// </summary>
+        /// <returns>The profile</returns>
+        Task<ProfileModel> GetLoggedInUserProfile();
 
         /// <summary>
         /// Gets the id of the currently logged in user.

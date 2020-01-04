@@ -27,24 +27,53 @@ namespace Onebrb.Spa.Services
 
         public async Task<ProfileModel> GetProfileAsync(int profileId)
         {
-            ProfileModel profile = await JsonSerializer.DeserializeAsync<ProfileModel>
-                (await _httpClient.GetStreamAsync($"/profiles/{profileId}"), new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true
-                });
+            try
+            {
+                ProfileModel profile = await JsonSerializer.DeserializeAsync<ProfileModel>
+                    (await _httpClient.GetStreamAsync($"/profiles/{profileId}"), new JsonSerializerOptions()
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
 
-            return profile;
+                return profile;
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
+            catch (JsonException)
+            {
+                return null;
+            }
         }
 
         public async Task<ProfileModel> GetProfileAsync(string nickname)
         {
-            ProfileModel profile = await JsonSerializer.DeserializeAsync<ProfileModel>
-                (await _httpClient.GetStreamAsync($"/profiles/{nickname}"), new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true
-                });
+            try
+            {
+                ProfileModel profile = await JsonSerializer.DeserializeAsync<ProfileModel>
+                    (await _httpClient.GetStreamAsync($"/profiles/{nickname}"), new JsonSerializerOptions()
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
 
-            return profile;
+                return profile;
+            }
+            catch (HttpRequestException) 
+            {
+                return null;
+            }
+            catch (JsonException)
+            {
+                return null;
+            }
+        }
+
+        public async Task<ProfileModel> GetLoggedInUserProfile()
+        {
+            int loggedInUserId = GetLoggedInUserId();
+
+            return await GetProfileAsync(loggedInUserId);
         }
 
         public int GetLoggedInUserId()
