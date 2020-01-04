@@ -10,7 +10,7 @@ namespace Onebrb.Core.Interfaces.Repos
     public interface ICategoryRepository
     {
         /// <summary>
-        /// Gets all categories asynchronously
+        /// Gets all categories asynchronously.
         /// </summary>
         /// <returns>The categories</returns>
         Task<IList<Category>> GetAllCategoriesAsync();

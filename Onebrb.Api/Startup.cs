@@ -44,25 +44,25 @@ namespace Onebrb.Api
         {
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")));
-
-            services.AddDefaultIdentity<ApplicationUser>()
+                    Configuration.GetConnectionString("Onebrb"), x => x.MigrationsAssembly("Onebrb.Data")))
+                .AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IAuthService, AuthService>();
 
-            services.Configure<ApiConfiguration>(options => Configuration.GetSection("ApiConfiguration").Bind(options));
+            services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
 
+            services.Configure<ApiConfiguration>(options => Configuration.GetSection("ApiConfiguration").Bind(options));
             var apiConfig = Configuration.GetSection("ApiConfiguration");
             services.Configure<ApiConfiguration>(apiConfig);
+
 
             // configure jwt authentication
             var appSettings = apiConfig.Get<ApiConfiguration>();
@@ -85,7 +85,6 @@ namespace Onebrb.Api
                 };
             });
 
-            services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
