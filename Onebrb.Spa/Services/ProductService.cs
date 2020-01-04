@@ -42,10 +42,7 @@ namespace Onebrb.Spa.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return await JsonSerializer.DeserializeAsync<Product>(await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true,
-                });
+                return product;
             }
 
             return null;

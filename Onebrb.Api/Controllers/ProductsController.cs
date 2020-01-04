@@ -64,8 +64,15 @@ namespace Onebrb.Api.Controllers
                 product.Owner = owner;
                 product.Category = category;
 
-                Product productCreated = await _productRepository.CreateProductAsync(product);
-                return Created(nameof(GetProductByIdAsync), productCreated);
+                int entriesCreated = await _productRepository.CreateProductAsync(product);
+
+                if (entriesCreated == 0)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+                return StatusCode(StatusCodes.Status201Created);
+                //return CreatedAtAction(nameof(GetProductByIdAsync), new { productCreated.Id }, productCreated);
             }
             catch (CouldNotCreateProductException ex)
             {
@@ -74,7 +81,7 @@ namespace Onebrb.Api.Controllers
             }
         }
 
-        [HttpGet("{productId}")]
+        [HttpGet("{productId}", Name = "GetProductByIdAsync")]
         public async Task<ActionResult<ProductModel>> GetProductByIdAsync(int productId)
         {
             Product product = await _productRepository.GetProductAsync(productId);

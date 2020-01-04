@@ -15,7 +15,7 @@ namespace Onebrb.Core.Interfaces.Repos
         /// <param name="product">The product</param>
         /// <exception cref="Core.Exceptions.CouldNotCreateProductException">Thrown when there was an error creating the product.</exception>
         /// <returns>The product that was created.</returns>
-        Task<Product> CreateProductAsync(Product product);
+        Task<int> CreateProductAsync(Product product);
 
         /// <summary>
         /// Gets a product by Id.

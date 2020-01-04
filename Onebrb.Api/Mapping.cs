@@ -14,14 +14,11 @@ namespace Onebrb.Api
         public Mapping()
         {
             CreateMap<Product, ProductModel>()
-                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category))
-                .ReverseMap();
+                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category));
 
-            CreateMap<Category, CategoryModel>()
-                .ReverseMap();
+            CreateMap<Category, CategoryModel>();
 
-            CreateMap<ApplicationUser, ProfileModel>()
-                .ReverseMap();
+            CreateMap<ApplicationUser, ProfileModel>();
         }
     }
 }

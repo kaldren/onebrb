@@ -20,19 +20,21 @@ namespace Onebrb.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<int> CreateProductAsync(Product product)
         {
+            int numEntries = 0;
+
             try
             {
                 await _dbContext.Products.AddAsync(product);
-                await _dbContext.SaveChangesAsync();
+                numEntries = await _dbContext.SaveChangesAsync();
             }
             catch (CouldNotCreateProductException ex)
             {
                 throw new CouldNotCreateProductException($"Couldn't add product to database. {ex.InnerException}");
             }
 
-            return product;
+            return numEntries;
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync(string nickname)
