@@ -1,1 +1,36 @@
-﻿Product items
+﻿@using Onebrb.Core.Models
+
+@if (HasProducts == false)
+{
+    <p>@Profile.Nickname doesn't have any products on Onebrb yet.</p>
+    return;
+}
+
+Products of @Profile.Nickname (@Profile.Products.Count())
+
+<div class="row">
+    @foreach (var product in @Profile.Products)
+    {
+        <div class="col-lg-4">
+            <div class="card">
+                <img src="https://picsum.photos/286/180" class="card-img-top" alt="@product.Title">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Title</h5>
+                    <p class="card-text">@product.Description</p>
+                    <a href="#" class="btn btn-primary">Check it out</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public ProfileModel Profile { get; set; }
+    public bool HasProducts { get; set; }
+
+    protected override void OnInitialized()
+    {
+        HasProducts = Profile.Products != null && Profile.Products.Count > 0;
+    }
+}
