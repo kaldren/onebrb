@@ -37,12 +37,9 @@ namespace Onebrb.Spa.Services
 
                 return profile;
             }
-            catch (HttpRequestException)
+            catch (Exception ex) when (ex is HttpRequestException || ex is JsonException)
             {
-                return null;
-            }
-            catch (JsonException)
-            {
+                // May log it later
                 return null;
             }
         }
@@ -59,12 +56,9 @@ namespace Onebrb.Spa.Services
 
                 return profile;
             }
-            catch (HttpRequestException) 
+            catch (Exception ex) when (ex is HttpRequestException || ex is JsonException)
             {
-                return null;
-            }
-            catch (JsonException)
-            {
+                // May log it later
                 return null;
             }
         }

@@ -26,12 +26,16 @@ namespace Onebrb.Data.Repositories
 
         public async Task<ApplicationUser> GetProfileAsync(int profileId)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == profileId);
+            return await _dbContext.Users
+                            .Include(p => p.Products)
+                            .FirstOrDefaultAsync(u => u.Id == profileId);
         }
 
         public async Task<ApplicationUser> GetProfileAsync(string nickname)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Nickname == nickname);
+            return await _dbContext.Users
+                            .Include(p => p.Products)
+                            .FirstOrDefaultAsync(u => u.Nickname == nickname);
         }
     }
 }
