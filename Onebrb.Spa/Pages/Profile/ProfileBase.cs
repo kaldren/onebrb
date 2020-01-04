@@ -17,6 +17,9 @@ namespace Onebrb.Spa.Pages.Profile
         [Parameter]
         public string ProfileId { get; set; }
 
+        [Parameter]
+        public string ProfileNickname { get; set; }
+
         [Inject]
         public IProfileService ProfileService { get; set; }
 
@@ -25,6 +28,10 @@ namespace Onebrb.Spa.Pages.Profile
             if (ProfileId != null && int.TryParse(ProfileId, out int idParameter))
             {
                 Profile = (await ProfileService.GetProfileAsync(idParameter));
+            }
+            else if (ProfileNickname != null)
+            {
+                Profile = (await ProfileService.GetProfileAsync(ProfileNickname));
             }
             else
             {

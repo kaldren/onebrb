@@ -13,7 +13,6 @@ using Onebrb.Spa.Services;
 using System.Net.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
-using Onebrb.Spa.Misc;
 using System.Security.Claims;
 using Onebrb.Spa.Configurations;
 
@@ -61,7 +60,6 @@ namespace Onebrb.Spa
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, MyUserClaimsPrincipalFactory>();
 
             services.AddCors(o => o.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader()));
 

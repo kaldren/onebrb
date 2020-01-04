@@ -36,9 +36,15 @@ namespace Onebrb.Spa.Services
             return profile;
         }
 
-        public Task<Profile> GetProfileAsync()
+        public async Task<ProfileModel> GetProfileAsync(string nickname)
         {
-            throw new NotImplementedException();
+            ProfileModel profile = await JsonSerializer.DeserializeAsync<ProfileModel>
+                (await _httpClient.GetStreamAsync($"/profiles/{nickname}"), new JsonSerializerOptions()
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            return profile;
         }
 
         public int GetLoggedInUserId()

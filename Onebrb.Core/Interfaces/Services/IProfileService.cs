@@ -10,23 +10,25 @@ namespace Onebrb.Core.Interfaces.Services
 {
     public interface IProfileService
     {
+        
         /// <summary>
-        /// Get own profile
+        /// Gets profile by nickname.
         /// </summary>
+        /// <param name="nickname"></param>
         /// <returns></returns>
-        Task<Profile> GetProfileAsync();
+        Task<ProfileModel> GetProfileAsync(string nickname);
 
         /// <summary>
-        /// Get profile by id
+        /// Gets profile by id.
         /// </summary>
         /// <param name="profileId">Profile id</param>
         /// <returns></returns>
         Task<ProfileModel> GetProfileAsync(int profileId);
 
         /// <summary>
-        /// Get logged in user Id
+        /// Gets the id of the currently logged in user.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The id</returns>
         public int GetLoggedInUserId();
     }
 }

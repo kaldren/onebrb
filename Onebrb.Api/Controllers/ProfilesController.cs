@@ -55,7 +55,6 @@ namespace Onebrb.Api.Controllers
         public async Task<ActionResult<ProfileModel>> GetProfileByNickname(string nickname)
         {
             ApplicationUser profile = await _profileRepository.GetProfileAsync(nickname);
-            profile.ProductsUrl = _config.GetSection("ApiConfiguration").GetSection("ApiUrl").Value + $"{profile.ProductsUrl}";
 
             return (profile == null) ? null : _mapper.Map<ProfileModel>(profile);
         }

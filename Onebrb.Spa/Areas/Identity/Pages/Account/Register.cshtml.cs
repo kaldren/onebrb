@@ -102,7 +102,6 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName, 
                     LastName = Input.LastName,
                     Nickname = Input.Nickname,
-                    ProductsUrl = $"/profiles/{Input.Nickname}/products"
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
