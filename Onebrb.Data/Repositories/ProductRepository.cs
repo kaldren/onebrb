@@ -49,7 +49,7 @@ namespace Onebrb.Data.Repositories
             return await _dbContext.Products
                 .Include(category => category.Category)
                 .Include(owner => owner.Owner)
-                .SingleOrDefaultAsync(x => x.Id == productId);
+                .FirstOrDefaultAsync(x => x.Id == productId);
         }
     }
 }
