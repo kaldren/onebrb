@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
+using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,11 @@ namespace Onebrb.Spa.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<ProductModel> CreateProductAsync(ProductModel product)
         {
             string userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value ?? "-1";
 
-            product.Owner = new ApplicationUser();
-
-            product.Owner.Id = int.Parse(userId);
+            product.UserId = int.Parse(userId);
 
             // Set token header
             _httpClient.DefaultRequestHeaders.Authorization = 
@@ -40,23 +39,21 @@ namespace Onebrb.Spa.Services
 
             HttpResponseMessage response = await _httpClient.PostAsync("/products", productJson);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode == false)
             {
-                return product;
+                return null;
             }
 
-            return null;
+            return await JsonSerializer.DeserializeAsync<ProductModel>(await response.Content.ReadAsStreamAsync());
         }
 
         public async Task<ICollection<Product>> GetAllProducts()
         {
-            ICollection<Product> products = await JsonSerializer.DeserializeAsync<ICollection<Product>>
+            return await JsonSerializer.DeserializeAsync<ICollection<Product>>
                 (await _httpClient.GetStreamAsync($"api/product"), new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
-
-            return products;
         }
     }
 }

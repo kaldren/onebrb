@@ -1,4 +1,5 @@
 ﻿using Onebrb.Core.Entities;
+using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Onebrb.Core.Interfaces.Services
         /// </summary>
         /// <param name="product">The product</param>
         /// <returns>The product</returns>
-        Task<Product> CreateProductAsync(Product product);
+        Task<ProductModel> CreateProductAsync(ProductModel product);
 
         /// <summary>
         /// Gets all products asynchronously

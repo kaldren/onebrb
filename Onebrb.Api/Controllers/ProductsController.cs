@@ -42,37 +42,40 @@ namespace Onebrb.Api.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Profile>> CreateProductAsync([FromBody] Product product)
+        public async Task<ActionResult<ProductModel>> CreateProductAsync([FromBody] ProductModel product)
         {
             try
             {
-                ApplicationUser owner = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == product.Owner.Id);
-                Category category = await _dbContext.Categories.FirstOrDefaultAsync(c => c.Id == product.Category.Id);
+                ApplicationUser owner = await _dbContext.Users.FindAsync(product.UserId);
+                Category category = await _dbContext.Categories.FindAsync(product.CategoryId);
 
                 if (owner == null)
                 {
-                    _logger.LogWarning($"Owner with Id {product.Owner.Id} doesn't exist.");
+                    _logger.LogWarning($"Owner with Id {product.UserId} doesn't exist.");
                     return BadRequest();
                 }
 
                 if (category == null)
                 {
-                    _logger.LogWarning($"Category with Id {product.Category.Id} doesn't exist.");
+                    _logger.LogWarning($"Category with Id {product.CategoryId} doesn't exist.");
                     return BadRequest();
                 }
 
-                product.Owner = owner;
-                product.Category = category;
+                Product productToCreate = _mapper.Map<Product>(product);
 
-                int entriesCreated = await _productRepository.CreateProductAsync(product);
+                productToCreate.Owner = owner;
+                productToCreate.Category = category;
+
+                int entriesCreated = await _productRepository.CreateProductAsync(productToCreate);
 
                 if (entriesCreated == 0)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
 
-                return StatusCode(StatusCodes.Status201Created);
-                //return CreatedAtAction(nameof(GetProductByIdAsync), new { productCreated.Id }, productCreated);
+                ProductModel productModel = _mapper.Map<ProductModel>(productToCreate);
+
+                return CreatedAtRoute(nameof(GetProductByIdAsync), new { productId = productToCreate.Id }, productModel);
             }
             catch (CouldNotCreateProductException ex)
             {

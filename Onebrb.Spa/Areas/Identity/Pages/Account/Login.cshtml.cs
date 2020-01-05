@@ -95,9 +95,9 @@ namespace Onebrb.Spa.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
                     var loggedInUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == Input.Email);
-                    // Set auth token
+
                     var userToken = await _authService.Authenticate(Input.Email, Input.Password);
-                    //await _userManager.AddClaimAsync(loggedInUser, new Claim("ApiToken", userToken.Token));
+
                     var claims = new List<Claim>
                     {
                         new Claim("ApiToken", userToken.Token)

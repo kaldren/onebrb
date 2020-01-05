@@ -11,49 +11,55 @@
 </AuthorizeView>
 
 <h2>Add product to Onebrb</h2>
+@if (DataLoaded == false)
+{
+    <p>Loading... Please wait.</p>
+}
 
-<div class="row">
-    <p class="@MessageCss">@Message</p>
-</div>
+else
+{
+    <div class="row">
+        <p class="@MessageCss">@Message</p>
+    </div>
+    <div class="create-product">
+        <EditForm Model="@Product" OnValidSubmit="@HandleValidFormSubmit">
+            <DataAnnotationsValidator />
 
-<div class="create-product">
-    <EditForm Model="@Product" OnValidSubmit="@HandleValidFormSubmit">
-        <DataAnnotationsValidator />
-
-        <div class="form-group row">
-            <InputText id="productTitle" @bind-Value="@Product.Title" class="form-control col-md-8" placeholder="Title"></InputText>
-            <ValidationMessage class="col-xs-12" For="@(() => Product.Title)" />
-        </div>
-        <div class="form-group row">
-            <InputTextArea id="productDescription" @bind-Value="@Product.Description" class="form-control col-md-8" placeholder="Description"></InputTextArea>
-            <ValidationMessage class="col-xs-12" For="@(() => Product.Description)" />
-        </div>
-        <div class="form-group row">
-            <label for="productCategory">Category</label>
-        </div>
-        <div class="form-group row">
-            <InputSelect class="form-control col-md-4" id="productCategory" @bind-Value="@SelectedCategoryId">
-                @foreach (var category in Categories)
-                {
-                    <option value="@category.Id">@category.Name</option>
-                }
-            </InputSelect>
-        </div>
-        <div class="form-group row">
-            <InputNumber id="productPrice" @bind-Value="@Product.Price" class="form-control col-md-2" placeholder="Price"></InputNumber>
-            <div class="col-md-2">
-                <label for="productFree">Free: </label>
-                <InputCheckbox id="productFree" @bind-Value="@Product.IsFree" />
+            <div class="form-group row">
+                <InputText id="productTitle" @bind-Value="@Product.Title" class="form-control col-md-8" placeholder="Title"></InputText>
+                <ValidationMessage class="col-xs-12" For="@(() => Product.Title)" />
             </div>
-            <div class="col-md-2">
-                <label for="productNegotiation">Negotiable: </label>
-                <InputCheckbox id="productNegotiation" @bind-Value="@Product.IsNegotiable" />
+            <div class="form-group row">
+                <InputTextArea id="productDescription" @bind-Value="@Product.Description" class="form-control col-md-8" placeholder="Description"></InputTextArea>
+                <ValidationMessage class="col-xs-12" For="@(() => Product.Description)" />
             </div>
-        </div>
+            <div class="form-group row">
+                <label for="productCategory">Category</label>
+            </div>
+            <div class="form-group row">
+                <InputSelect class="form-control col-md-4" id="productCategory" @bind-Value="@SelectedCategoryId">
+                    @foreach (var category in Categories)
+                        {
+                        <option value="@category.Id">@category.Name</option>
+                        }
+                </InputSelect>
+            </div>
+            <div class="form-group row">
+                <InputNumber id="productPrice" @bind-Value="@Product.Price" class="form-control col-md-2" placeholder="Price"></InputNumber>
+                <div class="col-md-2">
+                    <label for="productFree">Free: </label>
+                    <InputCheckbox id="productFree" @bind-Value="@Product.IsFree" />
+                </div>
+                <div class="col-md-2">
+                    <label for="productNegotiation">Negotiable: </label>
+                    <InputCheckbox id="productNegotiation" @bind-Value="@Product.IsNegotiable" />
+                </div>
+            </div>
 
-        <div class="row">
-            <button type="submit" class="btn btn-primary" disabled="@ProductCreated">Create</button>
-        </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary" disabled="@ProductCreated">Create</button>
+            </div>
 
-    </EditForm>
-</div>
+        </EditForm>
+    </div>
+}

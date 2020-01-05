@@ -14,7 +14,7 @@ namespace Onebrb.Api
         public Mapping()
         {
             CreateMap<Product, ProductModel>()
-                .ForMember(x => x.Category, y => y.MapFrom(z => z.Category));
+                .ReverseMap();
 
             CreateMap<Category, CategoryModel>();
 

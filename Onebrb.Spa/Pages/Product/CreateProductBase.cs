@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
+using Onebrb.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace Onebrb.Spa.Pages.Product
     public class CreateProductBase : ComponentBase
     {
         #region Bindings
-        protected Core.Entities.Product Product { get; set; } = new Core.Entities.Product();
-
-        protected ICollection<Category> Categories { get; set; } = new List<Category>();
+        protected ProductModel Product { get; set; }
+        protected ICollection<Category> Categories { get; set; }
         public string SelectedCategoryId { get; set; }
+        public bool DataLoaded { get; set; }
         #endregion Bindings
 
         #region Services
@@ -27,64 +28,53 @@ namespace Onebrb.Spa.Pages.Product
 
         [Inject]
         public IProductService ProductService { get; set; }
-
-        [Inject]
-        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         #endregion Services
 
         #region UI Properties
         public bool ProductCreated { get; set; } = false;
         public string Message { get; private set; } = string.Empty;
         public string MessageCss { get; private set; }
-        public bool IsAuthenticatedUser { get; set; } = false;
 
         public ClaimsPrincipal User { get; set; }
         #endregion UI Properties
 
+        public CreateProductBase()
+        {
+            Product = new ProductModel();
+            Categories = new List<Category>();
+        }
+
         protected override async Task OnInitializedAsync()
         {
+            ICollection<Category> categoriesFromDb = (await CategoryService.GetAllCategoriesAsync());
 
-            // Check if it is a logged in user
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            User = authState.User;
+            SelectedCategoryId = categoriesFromDb.First().Id.ToString();
 
-            if (User.Identity.IsAuthenticated)
+            foreach (var category in categoriesFromDb)
             {
-                ICollection<Category> categoriesFromDb = (await CategoryService.GetAllCategoriesAsync());
-                SelectedCategoryId = categoriesFromDb.First().Id.ToString();
-
-                foreach (var category in categoriesFromDb)
-                {
-                    Categories.Add(category);
-                }
-
-                IsAuthenticatedUser = true;
+                Categories.Add(category);
             }
-            else
-            {
-                // Not logged in
-                IsAuthenticatedUser = false;
-            }
+
+            DataLoaded = true;
         }
 
         protected async Task HandleValidFormSubmit()
         {
-            Product.Category = new Category();
-            Product.Category.Id = int.Parse(SelectedCategoryId);
+            Product.CategoryId = int.Parse(SelectedCategoryId);
 
-            Core.Entities.Product productCreated = await ProductService.CreateProductAsync(Product);
+            ProductModel productCreated = await ProductService.CreateProductAsync(Product);
 
-            if (productCreated != null)
-            {
-                ProductCreated = true;
-                Message = $"{Product.Title} has been uploaded To Onebrb.";
-                MessageCss = "alert alert-success";
-            }
-            else
+            if (productCreated == null)
             {
                 Message = $"Something unexpected happened. Please try again later.";
                 MessageCss = "alert alert-danger";
                 ProductCreated = false;
+            }
+            else
+            {
+                ProductCreated = true;
+                Message = $"{Product.Title} has been uploaded To Onebrb.";
+                MessageCss = "alert alert-success";
             }
 
             StateHasChanged();

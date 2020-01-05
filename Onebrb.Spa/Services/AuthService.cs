@@ -34,16 +34,15 @@ namespace Onebrb.Spa.Services
 
             HttpResponseMessage response = await _httpClient.PostAsync("/auth", profileJson);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode == false)
             {
-                var profileDeserialized = await JsonSerializer.DeserializeAsync<Profile>(await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions()
-                {
-                    PropertyNameCaseInsensitive = true,
-                });
-                return profileDeserialized;
+                return null;
             }
 
-            return null;
+            return await JsonSerializer.DeserializeAsync<Profile>(await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true,
+            });
         }
     }
 }
