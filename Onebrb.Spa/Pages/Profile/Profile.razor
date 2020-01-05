@@ -1,7 +1,6 @@
 ﻿@page "/profile"
 @page "/profile/{profileNickname}"
 @page "/profile/{profileId:int}"
-@using Onebrb.Core.Enumerations;
 @inherits ProfileBase
 
 <h3>Profile</h3>
@@ -15,5 +14,5 @@ else
     <h2>Profile of @Profile.FirstName @Profile.LastName ( @Profile.Nickname )</h2>
     <p>Products on Onebrb: @Profile.Products.Count()</p>
 
-    <ProfileProductItems Profile="@Profile" />
+    <ProfileProducts Profile="@Profile" />
 }

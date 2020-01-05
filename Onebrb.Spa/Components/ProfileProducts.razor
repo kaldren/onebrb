@@ -16,9 +16,8 @@ Products of @Profile.Nickname (@Profile.Products.Count())
                 @product.Title <span class="badge badge-secondary">@product.Price</span>
             </div>
             <div class="card-body">
-                @*<h5 class="card-title">@product.Price</h5>*@
                 <p class="card-text">@product.Description</p>
-                <a href="#" class="btn btn-primary">Check it out</a>
+                <a href="/product/@product.Id" class="btn btn-primary">Check it out</a>
             </div>
         </div>
     }
