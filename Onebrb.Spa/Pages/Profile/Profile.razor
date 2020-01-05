@@ -3,16 +3,11 @@
 @page "/profile/{profileId:int}"
 @inherits ProfileBase
 
-<h3>Profile</h3>
-
 @if (Profile == null)
 {
     <h2>Loading...</h2>
 }
 else 
 {
-    <h2>Profile of @Profile.FirstName @Profile.LastName ( @Profile.Nickname )</h2>
-    <p>Products on Onebrb: @Profile.Products.Count()</p>
-
     <ProfileProducts Profile="@Profile" />
 }
