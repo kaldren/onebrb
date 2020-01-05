@@ -14,7 +14,7 @@ namespace Onebrb.UnitTests
     public class ProductRepositoryShould
     {
         [Fact]
-        public async void CreateNewProductAndReturnIt()
+        public async void CreateNewProductAndReturnOne()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "CreateNewProduct")
@@ -32,9 +32,9 @@ namespace Onebrb.UnitTests
             {
                 var productRepo = new ProductRepository(context);
 
-                var product = await productRepo.CreateProductAsync(productToAdd);
+                int numProductsCreated = await productRepo.CreateProductAsync(productToAdd);
 
-                Assert.IsType<Product>(product);
+                Assert.Equal(1, numProductsCreated);
                 Assert.Equal(1, context.Products.Count());
             }
         }
@@ -69,6 +69,44 @@ namespace Onebrb.UnitTests
                 Assert.Equal(product.Id, idToLookFor);
             }
 
+        }
+
+        [Fact]
+        public async void ReturnAllProductsOfGivenNickname()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "ReturnAllProductsOfGivenNickname")
+                .Options;
+
+            ApplicationUser user = new ApplicationUser { Nickname = "johndoe" };
+
+            List<Category> categories = new List<Category>()
+            {
+                new Category {Id = 1, Name = "Toys"},
+                new Category {Id = 2, Name = "Electronics"},
+            };
+
+            List<Product> products = new List<Product>()
+            {
+                new Product {Id = 1, Category = categories.First(), Owner = user, Title = "Some title", Description = "Some descr", Price = 25},
+                new Product {Id = 2, Category = categories.Last(), Owner = user, Title = "Some title 2", Description = "Some descr 2", Price = 125},
+            };
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                await context.Users.AddAsync(user);
+                await context.Categories.AddRangeAsync(categories);
+                await context.Products.AddRangeAsync(products);
+                await context.SaveChangesAsync();
+            }
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                var productRepo = new ProductRepository(context);
+                IEnumerable<Product> allProducts = await productRepo.GetAllProductsAsync(user.Nickname);
+
+                Assert.True(allProducts.Count() == 2);
+            }
         }
     }
 }
