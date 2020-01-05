@@ -12,14 +12,14 @@ namespace Onebrb.Spa.Components
     /// <summary>
     /// Redirects to login page if the visitor isn't authorized
     /// </summary>
-    public class RedirectToLoginComponent : ComponentBase
+    public class RedirectToLogin : ComponentBase
     {
         private readonly UriConfiguration _uriConfig;
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
 
-        public RedirectToLoginComponent(IOptions<UriConfiguration> uriConfig)
+        public RedirectToLogin(IOptions<UriConfiguration> uriConfig)
         {
             _uriConfig = uriConfig.Value;
         }

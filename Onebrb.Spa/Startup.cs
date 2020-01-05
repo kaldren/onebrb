@@ -15,6 +15,7 @@ using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;
 using System.Security.Claims;
 using Onebrb.Spa.Configurations;
+using Blazored.Modal;
 
 namespace Onebrb.Spa
 {
@@ -49,6 +50,8 @@ namespace Onebrb.Spa
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddBlazoredModal();
+
             services.AddScoped(config =>
             {
                 var client = new HttpClient { BaseAddress = new Uri(Configuration.GetSection("ApiConfiguration:ApiUrl").Value) };
@@ -70,6 +73,7 @@ namespace Onebrb.Spa
             });
 
             services.Configure<UriConfiguration>(options => Configuration.GetSection("UriConfiguration").Bind(options));
+            services.Configure<UIConfiguration>(options => Configuration.GetSection("UIConfiguration").Bind(options));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
