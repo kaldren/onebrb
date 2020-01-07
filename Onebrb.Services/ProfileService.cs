@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Onebrb.Spa.Services
+namespace Onebrb.Services
 {
     public class ProfileService : IProfileService
     {

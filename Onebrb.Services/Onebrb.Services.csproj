@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Onebrb.Api\Onebrb.Api.csproj" />
+    <ProjectReference Include="..\Onebrb.Core\Onebrb.Core.csproj" />
+    <ProjectReference Include="..\Onebrb.Data\Onebrb.Data.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Onebrb.Spa.Areas.Identity;
 using Onebrb.Data;
-using Onebrb.Spa.Services;
+using Onebrb.Services;
 using System.Net.Http;
 using Onebrb.Core.Entities;
 using Onebrb.Core.Interfaces.Services;

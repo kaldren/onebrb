@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Onebrb.Spa.Services
+namespace Onebrb.Services
 {
     public interface IAuthService
     {

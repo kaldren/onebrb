@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Onebrb.Core.Entities;
-using Onebrb.Spa.Services;
+using Onebrb.Services;
 using System.Security.Claims;
 using Onebrb.Data;
 using Microsoft.EntityFrameworkCore;
